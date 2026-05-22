@@ -1,4 +1,4 @@
-# Tor Usage Dashboard
+# Tor Historic Data Dashboard
 
 A dashboard for visualizing historic Tor relay user statistics over time, broken down by country.
 

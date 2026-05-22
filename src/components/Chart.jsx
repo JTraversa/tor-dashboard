@@ -1,7 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { createChart, CrosshairMode, LineSeries, AreaSeries } from 'lightweight-charts'
+import { getCountryName } from '../utils/countries'
 
-export default function Chart({ data, chartType = 'area' }) {
+// Distinct color palette for country lines
+const COUNTRY_COLORS = [
+  '#ef4444', '#f59e0b', '#10b981', '#06b6d4', '#8b5cf6',
+  '#ec4899', '#f97316', '#84cc16', '#14b8a6', '#a855f7',
+  '#6366f1', '#22c55e',
+]
+
+export default function Chart({ data, chartType = 'area', countriesData = null, hiddenCountries = new Set(), showGlobal = true }) {
   const containerRef = useRef(null)
   const chartRef = useRef(null)
   const [theme, setTheme] = useState(document.documentElement.getAttribute('data-theme') || 'dark')
@@ -15,7 +23,8 @@ export default function Chart({ data, chartType = 'area' }) {
   }, [])
 
   useEffect(() => {
-    if (!containerRef.current || !data || data.length === 0) return
+    if (!containerRef.current) return
+    if ((!data || data.length === 0) && (!countriesData || Object.keys(countriesData).length === 0)) return
 
     if (chartRef.current) {
       chartRef.current.remove()
@@ -67,27 +76,51 @@ export default function Chart({ data, chartType = 'area' }) {
 
     chartRef.current = chart
 
-    const chartData = data.map(d => ({ time: d.date, value: d.users }))
+    // Render main / global line
+    if (data && data.length > 0 && showGlobal) {
+      const chartData = data.map(d => ({ time: d.date, value: d.users }))
 
-    let mainSeries
-    if (chartType === 'area') {
-      mainSeries = chart.addSeries(AreaSeries, {
-        lineColor: '#2563eb',
-        topColor: 'rgba(37, 99, 235, 0.3)',
-        bottomColor: 'rgba(37, 99, 235, 0.02)',
-        lineWidth: 2,
-        priceLineVisible: false,
-        lastValueVisible: true,
-      })
-    } else {
-      mainSeries = chart.addSeries(LineSeries, {
-        color: '#2563eb',
-        lineWidth: 2,
-        priceLineVisible: false,
-        lastValueVisible: true,
-      })
+      if (chartType === 'area') {
+        chart.addSeries(AreaSeries, {
+          lineColor: '#2563eb',
+          topColor: 'rgba(37, 99, 235, 0.3)',
+          bottomColor: 'rgba(37, 99, 235, 0.02)',
+          lineWidth: 2,
+          priceLineVisible: false,
+          lastValueVisible: true,
+          title: countriesData ? 'Global' : '',
+        }).setData(chartData)
+      } else {
+        chart.addSeries(LineSeries, {
+          color: '#2563eb',
+          lineWidth: 2,
+          priceLineVisible: false,
+          lastValueVisible: true,
+          title: countriesData ? 'Global' : '',
+        }).setData(chartData)
+      }
     }
-    mainSeries.setData(chartData)
+
+    // Render per-country lines
+    if (countriesData) {
+      const entries = Object.entries(countriesData)
+      for (let i = 0; i < entries.length; i++) {
+        const [country, points] = entries[i]
+        if (!points || points.length === 0) continue
+        if (hiddenCountries.has(country)) continue
+
+        const color = COUNTRY_COLORS[i % COUNTRY_COLORS.length]
+        const seriesData = points.map(d => ({ time: d.date, value: d.users }))
+
+        chart.addSeries(LineSeries, {
+          color,
+          lineWidth: 1.5,
+          priceLineVisible: false,
+          lastValueVisible: true,
+          title: country.toUpperCase(),
+        }).setData(seriesData)
+      }
+    }
 
     chart.timeScale().fitContent()
 
@@ -106,7 +139,9 @@ export default function Chart({ data, chartType = 'area' }) {
       chart.remove()
       chartRef.current = null
     }
-  }, [data, chartType, theme])
+  }, [data, chartType, theme, countriesData, hiddenCountries, showGlobal])
 
   return <div ref={containerRef} className="chart-container" style={{ width: '100%', height: '100%' }} />
 }
+
+export { COUNTRY_COLORS }

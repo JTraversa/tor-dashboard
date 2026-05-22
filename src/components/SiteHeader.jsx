@@ -16,7 +16,7 @@ const toolLinks = [
   { label: 'Epoch & Block Converter', href: 'https://tools.traversa.dev/epoch', indent: true },
   { label: 'License Generator', href: 'https://tools.traversa.dev/license', indent: true },
   { label: 'RPC Benchmarking', href: 'https://tools.traversa.dev/rpc', indent: true },
-  { label: 'Tor Usage', href: '/', indent: true },
+  { label: 'Tor Historic Data', href: '/', indent: true },
 ];
 
 export default function SiteHeader() {

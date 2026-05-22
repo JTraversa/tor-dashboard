@@ -17,14 +17,14 @@ export function useTorData() {
       .then(data => setMeta(data))
       .catch(err => {
         setError(err.message)
-        setMeta({ countries: [] })
+        setMeta({ countries: [], topCountries: [] })
       })
       .finally(() => setLoading(false))
   }, [])
 
   async function loadCountryData(country) {
     const key = `relay/${country}`
-    if (cache.current[key]) return
+    if (cache.current[key]) return cache.current[key]
 
     try {
       const data = await fetch(`${BASE}/relay/${country}.json`).then(r => {
@@ -32,10 +32,15 @@ export function useTorData() {
         return r.json()
       })
       cache.current[key] = data
+      return data
     } catch (err) {
       cache.current[key] = []
       throw err
     }
+  }
+
+  async function loadCountries(countries) {
+    return Promise.all(countries.map(c => loadCountryData(c).catch(() => [])))
   }
 
   function getCountryData(country) {
@@ -47,13 +52,14 @@ export function useTorData() {
   }
 
   async function loadGlobalData() {
-    if (cache.current['relay/global']) return
+    if (cache.current['relay/global']) return cache.current['relay/global']
     try {
       const data = await fetch(`${BASE}/relay/global.json`).then(r => {
         if (!r.ok) throw new Error('Failed to load global data')
         return r.json()
       })
       cache.current['relay/global'] = data
+      return data
     } catch (err) {
       cache.current['relay/global'] = []
       throw err
@@ -62,7 +68,7 @@ export function useTorData() {
 
   return {
     meta, loading, error,
-    loadCountryData, loadGlobalData,
+    loadCountryData, loadGlobalData, loadCountries,
     getCountryData, getGlobalData,
   }
 }

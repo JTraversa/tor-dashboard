@@ -8,7 +8,7 @@ export default function Header({ stats }) {
   return (
     <div className="dashboard-header">
       <div>
-        <h1>Tor Usage Dashboard</h1>
+        <h1>Tor Historic Data</h1>
         <div className="subtitle">Historical relay user statistics by country — 2011 to present</div>
       </div>
       <div className="header-stats">

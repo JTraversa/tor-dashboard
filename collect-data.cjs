@@ -139,10 +139,33 @@ async function fetchAndProcessTorData() {
     )
     console.log(`  Written global: ${globalArray.length} data points`)
 
+    // Calculate top 10 countries by average users in the last 90 days
+    const recentCutoff = (() => {
+      const lastDate = globalArray[globalArray.length - 1]?.date
+      if (!lastDate) return null
+      const d = new Date(lastDate)
+      d.setDate(d.getDate() - 90)
+      return d.toISOString().slice(0, 10)
+    })()
+
+    const countryAverages = []
+    for (const [country, data] of countryMap.entries()) {
+      const recent = recentCutoff
+        ? data.filter(d => d.date >= recentCutoff)
+        : data.slice(-90)
+      if (recent.length === 0) continue
+      const avg = recent.reduce((sum, d) => sum + d.users, 0) / recent.length
+      countryAverages.push({ country, avg })
+    }
+    countryAverages.sort((a, b) => b.avg - a.avg)
+    const topCountries = countryAverages.slice(0, 10).map(c => c.country)
+    console.log(`Top 10 countries: ${topCountries.join(', ')}`)
+
     // Write metadata
     const countries = Array.from(countryMap.keys()).sort()
     const meta = {
       countries,
+      topCountries,
       lastUpdated: new Date().toISOString(),
       totalCountries: countries.length,
       dataSource: 'https://metrics.torproject.org/',
