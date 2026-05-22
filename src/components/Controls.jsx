@@ -11,15 +11,36 @@ const CHART_TYPES = [
   { value: 'area', label: 'Area' },
 ]
 
+const DATA_TYPES = [
+  { value: 'relay', label: 'Relay' },
+  { value: 'bridge', label: 'Bridge' },
+]
+
 export default function Controls({
   timeRange, setTimeRange,
   chartType, setChartType,
+  dataType, setDataType,
   selectedCountry,
 }) {
   const label = selectedCountry === 'global' ? 'Global' : selectedCountry.toUpperCase()
 
   return (
     <div className="controls">
+      <div className="control-group">
+        <label>Data Type</label>
+        <div className="btn-group">
+          {DATA_TYPES.map(t => (
+            <button
+              key={t.value}
+              className={dataType === t.value ? 'active' : ''}
+              onClick={() => setDataType(t.value)}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="control-group">
         <label>Region</label>
         <div className="btn-group">

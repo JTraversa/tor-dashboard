@@ -1,15 +1,13 @@
-function formatNumber(n) {
-  if (n >= 1e6) return (n / 1e6).toFixed(2) + 'M'
-  if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K'
-  return n.toString()
-}
+export default function Header({ stats, dataType = 'relay' }) {
+  const subtitle = dataType === 'bridge'
+    ? 'Historic bridge user statistics by country — bridges bypass censorship in restricted regions'
+    : 'Historic relay user statistics by country — 2011 to present'
 
-export default function Header({ stats }) {
   return (
     <div className="dashboard-header">
       <div>
         <h1>Tor Historic Data</h1>
-        <div className="subtitle">Historical relay user statistics by country — 2011 to present</div>
+        <div className="subtitle">{subtitle}</div>
       </div>
       <div className="header-stats">
         <div className="stat-box">

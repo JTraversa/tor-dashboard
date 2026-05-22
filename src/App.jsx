@@ -18,6 +18,7 @@ function formatNumber(n) {
 
 export default function App() {
   const { meta, loading, error, loadCountryData, loadGlobalData, loadCountries, getCountryData, getGlobalData } = useTorData()
+  const [dataType, setDataType] = useState('relay')
   const [selectedCountry, setSelectedCountry] = useState('global')
   const [dataPoints, setDataPoints] = useState([])
   const [topCountriesData, setTopCountriesData] = useState(null)
@@ -27,31 +28,42 @@ export default function App() {
   const [hiddenCountries, setHiddenCountries] = useState(new Set())
   const [hideGlobalLine, setHideGlobalLine] = useState(false)
 
+  const dataMeta = meta?.[dataType] || meta || {}
+  const countries = dataMeta.countries || []
+  const topCountries = dataMeta.topCountries || []
+
+  // If switching data type and current country isn't in the new set, fall back to global
+  useEffect(() => {
+    if (!meta) return
+    if (selectedCountry !== 'global' && countries.length > 0 && !countries.includes(selectedCountry)) {
+      setSelectedCountry('global')
+    }
+  }, [dataType, meta])
+
   useEffect(() => {
     if (!meta) return
 
     setLoadingData(true)
+    setHiddenCountries(new Set())
     const load = async () => {
       try {
         if (selectedCountry === 'global') {
-          await loadGlobalData()
-          setDataPoints(getGlobalData())
+          await loadGlobalData(dataType)
+          setDataPoints(getGlobalData(dataType))
 
-          // Load top 10 countries for toggle
-          const tops = meta.topCountries || []
-          if (tops.length > 0) {
-            await loadCountries(tops)
+          if (topCountries.length > 0) {
+            await loadCountries(dataType, topCountries)
             const map = {}
-            for (const c of tops) {
-              map[c] = getCountryData(c)
+            for (const c of topCountries) {
+              map[c] = getCountryData(dataType, c)
             }
             setTopCountriesData(map)
           } else {
             setTopCountriesData(null)
           }
         } else {
-          await loadCountryData(selectedCountry)
-          setDataPoints(getCountryData(selectedCountry))
+          await loadCountryData(dataType, selectedCountry)
+          setDataPoints(getCountryData(dataType, selectedCountry))
           setTopCountriesData(null)
         }
       } catch (err) {
@@ -62,7 +74,7 @@ export default function App() {
     }
 
     load()
-  }, [selectedCountry, meta])
+  }, [selectedCountry, dataType, meta])
 
   const filteredData = useMemo(() => {
     if (!dataPoints || dataPoints.length === 0) return []
@@ -124,8 +136,8 @@ export default function App() {
     ? 'Global'
     : getCountryName(selectedCountry)
 
+  const dataTypeLabel = dataType === 'bridge' ? 'Tor Bridge Users' : 'Tor Relay Users'
   const isGlobalView = selectedCountry === 'global'
-  const topCountries = meta?.topCountries || []
 
   if (loading) {
     return (
@@ -155,8 +167,10 @@ export default function App() {
     <div className="app">
       <SiteHeader />
       <Socialicons />
-      <Header stats={stats} />
+      <Header stats={stats} dataType={dataType} />
       <Controls
+        dataType={dataType}
+        setDataType={setDataType}
         timeRange={timeRange}
         setTimeRange={setTimeRange}
         chartType={chartType}
@@ -166,7 +180,7 @@ export default function App() {
 
       <div className="main">
         <Sidebar
-          countries={meta?.countries || []}
+          countries={countries}
           selectedCountry={selectedCountry}
           onSelect={setSelectedCountry}
         />
@@ -175,7 +189,7 @@ export default function App() {
           <div className="y-axis-label">Estimated Users</div>
           <div className="chart-title">
             <span className="instance-name">{countryLabel}</span>
-            {' '}&mdash; Tor Relay Users
+            {' '}&mdash; {dataTypeLabel}
           </div>
 
           {isGlobalView && topCountries.length > 0 && (

@@ -17,18 +17,18 @@ export function useTorData() {
       .then(data => setMeta(data))
       .catch(err => {
         setError(err.message)
-        setMeta({ countries: [], topCountries: [] })
+        setMeta({ relay: { countries: [], topCountries: [] }, bridge: { countries: [], topCountries: [] } })
       })
       .finally(() => setLoading(false))
   }, [])
 
-  async function loadCountryData(country) {
-    const key = `relay/${country}`
+  async function loadCountryData(dataType, country) {
+    const key = `${dataType}/${country}`
     if (cache.current[key]) return cache.current[key]
 
     try {
-      const data = await fetch(`${BASE}/relay/${country}.json`).then(r => {
-        if (!r.ok) throw new Error(`Failed to load data for ${country}`)
+      const data = await fetch(`${BASE}/${dataType}/${country}.json`).then(r => {
+        if (!r.ok) throw new Error(`Failed to load ${dataType} data for ${country}`)
         return r.json()
       })
       cache.current[key] = data
@@ -39,31 +39,32 @@ export function useTorData() {
     }
   }
 
-  async function loadCountries(countries) {
-    return Promise.all(countries.map(c => loadCountryData(c).catch(() => [])))
+  async function loadCountries(dataType, countries) {
+    return Promise.all(countries.map(c => loadCountryData(dataType, c).catch(() => [])))
   }
 
-  function getCountryData(country) {
-    return cache.current[`relay/${country}`] || []
+  function getCountryData(dataType, country) {
+    return cache.current[`${dataType}/${country}`] || []
   }
 
-  function getGlobalData() {
-    return cache.current['relay/global'] || []
-  }
-
-  async function loadGlobalData() {
-    if (cache.current['relay/global']) return cache.current['relay/global']
+  async function loadGlobalData(dataType) {
+    const key = `${dataType}/global`
+    if (cache.current[key]) return cache.current[key]
     try {
-      const data = await fetch(`${BASE}/relay/global.json`).then(r => {
-        if (!r.ok) throw new Error('Failed to load global data')
+      const data = await fetch(`${BASE}/${dataType}/global.json`).then(r => {
+        if (!r.ok) throw new Error(`Failed to load global ${dataType} data`)
         return r.json()
       })
-      cache.current['relay/global'] = data
+      cache.current[key] = data
       return data
     } catch (err) {
-      cache.current['relay/global'] = []
+      cache.current[key] = []
       throw err
     }
+  }
+
+  function getGlobalData(dataType) {
+    return cache.current[`${dataType}/global`] || []
   }
 
   return {
