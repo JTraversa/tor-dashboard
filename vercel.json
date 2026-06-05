@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/tor", "destination": "/index.html" },
+    { "source": "/tor/", "destination": "/index.html" },
+    { "source": "/tor/:path*", "destination": "/:path*" }
+  ]
+}
