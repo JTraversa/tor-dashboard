@@ -365,6 +365,82 @@ select {
   border: 1px solid var(--accent);
 }
 
+/* World Map */
+.world-map {
+  flex: 1;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-primary);
+  overflow: hidden;
+}
+
+.world-map svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.map-tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  font-size: 12px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  z-index: 100;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.map-tooltip .tt-name {
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.map-tooltip .tt-code {
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.map-tooltip .tt-value {
+  color: var(--accent);
+}
+
+.map-legend {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  font-size: 11px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  z-index: 50;
+  min-width: 180px;
+}
+
+.map-legend-title {
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.map-legend-gradient {
+  height: 8px;
+  border-radius: 2px;
+  margin-bottom: 4px;
+}
+
+.map-legend-labels {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-secondary);
+}
+
 /* Footer */
 .dashboard-footer {
   background: var(--bg-secondary);

@@ -149,6 +149,29 @@ async function processDataset({ name, csvUrl, subDir }) {
 
   const countries = Array.from(countryMap.keys()).sort()
 
+  // Build snapshot: average of last 30 days per country (smooths noise)
+  const snapshotCutoff = (() => {
+    const lastDate = globalArray[globalArray.length - 1]?.date
+    if (!lastDate) return null
+    const d = new Date(lastDate)
+    d.setDate(d.getDate() - 30)
+    return d.toISOString().slice(0, 10)
+  })()
+
+  const snapshot = {}
+  for (const [country, data] of countryMap.entries()) {
+    const recent = snapshotCutoff ? data.filter(d => d.date >= snapshotCutoff) : data.slice(-30)
+    if (recent.length === 0) continue
+    const avg = recent.reduce((sum, d) => sum + d.users, 0) / recent.length
+    snapshot[country] = Math.round(avg)
+  }
+
+  fs.writeFileSync(
+    path.join(outDir, 'snapshot.json'),
+    JSON.stringify(snapshot, null, 2)
+  )
+  console.log(`Wrote snapshot: ${Object.keys(snapshot).length} countries`)
+
   return {
     countries,
     topCountries,

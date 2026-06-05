@@ -6,6 +6,7 @@ import Header from './components/Header'
 import Controls from './components/Controls'
 import Sidebar from './components/Sidebar'
 import Chart, { COUNTRY_COLORS } from './components/Chart'
+import WorldMap from './components/WorldMap'
 import Footer from './components/Footer'
 import { getCountryName } from './utils/countries'
 
@@ -17,11 +18,19 @@ function formatNumber(n) {
 }
 
 export default function App() {
-  const { meta, loading, error, loadCountryData, loadGlobalData, loadCountries, getCountryData, getGlobalData } = useTorData()
+  const {
+    meta, loading, error,
+    loadCountryData, loadGlobalData, loadCountries, loadSnapshot,
+    getCountryData, getGlobalData, getSnapshot,
+  } = useTorData()
+
   const [dataType, setDataType] = useState('relay')
+  const [viewMode, setViewMode] = useState('chart')
+  const [mapMode, setMapMode] = useState('choropleth')
   const [selectedCountry, setSelectedCountry] = useState('global')
   const [dataPoints, setDataPoints] = useState([])
   const [topCountriesData, setTopCountriesData] = useState(null)
+  const [snapshot, setSnapshot] = useState({})
   const [loadingData, setLoadingData] = useState(false)
   const [timeRange, setTimeRange] = useState('all')
   const [chartType, setChartType] = useState('area')
@@ -32,7 +41,6 @@ export default function App() {
   const countries = dataMeta.countries || []
   const topCountries = dataMeta.topCountries || []
 
-  // If switching data type and current country isn't in the new set, fall back to global
   useEffect(() => {
     if (!meta) return
     if (selectedCountry !== 'global' && countries.length > 0 && !countries.includes(selectedCountry)) {
@@ -47,6 +55,10 @@ export default function App() {
     setHiddenCountries(new Set())
     const load = async () => {
       try {
+        // Always load snapshot for the current data type (used by map view)
+        await loadSnapshot(dataType)
+        setSnapshot(getSnapshot(dataType))
+
         if (selectedCountry === 'global') {
           await loadGlobalData(dataType)
           setDataPoints(getGlobalData(dataType))
@@ -138,6 +150,7 @@ export default function App() {
 
   const dataTypeLabel = dataType === 'bridge' ? 'Tor Bridge Users' : 'Tor Relay Users'
   const isGlobalView = selectedCountry === 'global'
+  const isMapView = viewMode === 'map'
 
   if (loading) {
     return (
@@ -171,6 +184,10 @@ export default function App() {
       <Controls
         dataType={dataType}
         setDataType={setDataType}
+        viewMode={viewMode}
+        setViewMode={setViewMode}
+        mapMode={mapMode}
+        setMapMode={setMapMode}
         timeRange={timeRange}
         setTimeRange={setTimeRange}
         chartType={chartType}
@@ -186,55 +203,76 @@ export default function App() {
         />
 
         <div className="chart-area">
-          <div className="y-axis-label">Estimated Users</div>
-          <div className="chart-title">
-            <span className="instance-name">{countryLabel}</span>
-            {' '}&mdash; {dataTypeLabel}
-          </div>
-
-          {isGlobalView && topCountries.length > 0 && (
-            <div className="country-legend">
-              <div
-                className={`country-legend-item country-legend-global ${hideGlobalLine ? 'inactive' : 'active'}`}
-                onClick={() => setHideGlobalLine(v => !v)}
-              >
-                <div className="country-legend-checkbox">
-                  <div className="country-legend-checkbox-inner" style={{ backgroundColor: '#2563eb' }} />
-                </div>
-                Global
+          {isMapView ? (
+            <>
+              <div className="chart-title">
+                <span className="instance-name">{dataTypeLabel}</span>
+                {' '}&mdash; Geographic Distribution (avg last 30 days)
               </div>
-              {topCountries.map((c, i) => (
-                <div
-                  key={c}
-                  className={`country-legend-item ${hiddenCountries.has(c) ? 'inactive' : 'active'}`}
-                  onClick={() => toggleCountry(c)}
-                >
-                  <div className="country-legend-checkbox">
-                    <div
-                      className="country-legend-checkbox-inner"
-                      style={{ backgroundColor: COUNTRY_COLORS[i % COUNTRY_COLORS.length] }}
-                    />
-                  </div>
-                  {c.toUpperCase()}
-                </div>
-              ))}
-            </div>
-          )}
-
-          {loadingData ? (
-            <div className="no-data-msg">Loading data...</div>
-          ) : filteredData.length > 0 ? (
-            <div className="chart-container">
-              <Chart
-                data={filteredData}
-                chartType={chartType}
-                countriesData={isGlobalView ? filteredTopCountriesData : null}
-                hiddenCountries={hiddenCountries}
-                showGlobal={!hideGlobalLine}
-              />
-            </div>
+              {loadingData ? (
+                <div className="no-data-msg">Loading map data...</div>
+              ) : (
+                <WorldMap
+                  snapshot={snapshot}
+                  mode={mapMode}
+                  selectedCountry={selectedCountry}
+                  onSelect={setSelectedCountry}
+                />
+              )}
+            </>
           ) : (
-            <div className="no-data-msg">No data available for this selection</div>
+            <>
+              <div className="y-axis-label">Estimated Users</div>
+              <div className="chart-title">
+                <span className="instance-name">{countryLabel}</span>
+                {' '}&mdash; {dataTypeLabel}
+              </div>
+
+              {isGlobalView && topCountries.length > 0 && (
+                <div className="country-legend">
+                  <div
+                    className={`country-legend-item country-legend-global ${hideGlobalLine ? 'inactive' : 'active'}`}
+                    onClick={() => setHideGlobalLine(v => !v)}
+                  >
+                    <div className="country-legend-checkbox">
+                      <div className="country-legend-checkbox-inner" style={{ backgroundColor: '#2563eb' }} />
+                    </div>
+                    Global
+                  </div>
+                  {topCountries.map((c, i) => (
+                    <div
+                      key={c}
+                      className={`country-legend-item ${hiddenCountries.has(c) ? 'inactive' : 'active'}`}
+                      onClick={() => toggleCountry(c)}
+                    >
+                      <div className="country-legend-checkbox">
+                        <div
+                          className="country-legend-checkbox-inner"
+                          style={{ backgroundColor: COUNTRY_COLORS[i % COUNTRY_COLORS.length] }}
+                        />
+                      </div>
+                      {c.toUpperCase()}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {loadingData ? (
+                <div className="no-data-msg">Loading data...</div>
+              ) : filteredData.length > 0 ? (
+                <div className="chart-container">
+                  <Chart
+                    data={filteredData}
+                    chartType={chartType}
+                    countriesData={isGlobalView ? filteredTopCountriesData : null}
+                    hiddenCountries={hiddenCountries}
+                    showGlobal={!hideGlobalLine}
+                  />
+                </div>
+              ) : (
+                <div className="no-data-msg">No data available for this selection</div>
+              )}
+            </>
           )}
         </div>
       </div>

@@ -67,9 +67,29 @@ export function useTorData() {
     return cache.current[`${dataType}/global`] || []
   }
 
+  async function loadSnapshot(dataType) {
+    const key = `${dataType}/snapshot`
+    if (cache.current[key]) return cache.current[key]
+    try {
+      const data = await fetch(`${BASE}/${dataType}/snapshot.json`).then(r => {
+        if (!r.ok) throw new Error(`Failed to load ${dataType} snapshot`)
+        return r.json()
+      })
+      cache.current[key] = data
+      return data
+    } catch (err) {
+      cache.current[key] = {}
+      throw err
+    }
+  }
+
+  function getSnapshot(dataType) {
+    return cache.current[`${dataType}/snapshot`] || {}
+  }
+
   return {
     meta, loading, error,
-    loadCountryData, loadGlobalData, loadCountries,
-    getCountryData, getGlobalData,
+    loadCountryData, loadGlobalData, loadCountries, loadSnapshot,
+    getCountryData, getGlobalData, getSnapshot,
   }
 }
