@@ -1,12 +1,12 @@
-# Tor Historic Data Dashboard
+# Historical Tor Data
 
-A dashboard for visualizing historic Tor relay user statistics over time, broken down by country.
+A dashboard for visualizing historical Tor relay user statistics over time, broken down by country.
 
 ## Features
 
 - **Global trends** — View worldwide Tor relay usage over time
 - **Per-country breakdown** — Select any country to see localized usage patterns
-- **Historic data** — Complete historical dataset from Tor Metrics
+- **Historical data** — Complete historical dataset from Tor Metrics
 - **Interactive charts** — Smooth, lightweight-charts powered visualizations
 
 ## Data Source

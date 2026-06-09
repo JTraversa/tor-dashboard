@@ -37,7 +37,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>Tor Historic Data Dashboard — Data from metrics.torproject.org (CC0)</span>
+        <span>Historical Tor Data — Data from metrics.torproject.org (CC0)</span>
         <a href="https://metrics.torproject.org/" target="_blank" rel="noopener noreferrer">metrics.torproject.org</a>
       </div>
     </div>

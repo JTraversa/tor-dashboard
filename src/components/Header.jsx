@@ -1,12 +1,12 @@
 export default function Header({ stats, dataType = 'relay' }) {
   const subtitle = dataType === 'bridge'
-    ? 'Historic bridge user statistics by country — bridges bypass censorship in restricted regions'
-    : 'Historic relay user statistics by country — 2011 to present'
+    ? 'Historical bridge user statistics by country — bridges bypass censorship in restricted regions'
+    : 'Historical relay user statistics by country — 2011 to present'
 
   return (
     <div className="dashboard-header">
       <div>
-        <h1>Tor Historic Data</h1>
+        <h1>Historical Tor Data</h1>
         <div className="subtitle">{subtitle}</div>
       </div>
       <div className="header-stats">
