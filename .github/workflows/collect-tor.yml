@@ -1,0 +1,54 @@
+name: Collect Tor data
+
+# Refreshes the Tor Metrics relay/bridge user statistics weekly. The collector
+# downloads the full-history CSVs from metrics.torproject.org and rebuilds
+# public/data from scratch each run — the upstream serves the entire 2011→present
+# history every time, so a full rebuild reproduces all history (no resume/merge
+# needed, unlike the spot collector). The resulting commit is pushed to main,
+# which triggers the Vercel deploy.
+#
+# No npm install step: collect-data.cjs uses only Node built-ins (fs/path/https).
+
+on:
+  schedule:
+    - cron: '42 7 * * 1'   # Mondays 07:42 UTC
+  workflow_dispatch: {}
+
+concurrency:
+  group: collect-tor
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Collect Tor data
+        run: npm run collect
+
+      - name: Commit & push refreshed data
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data
+          if git diff --cached --quiet; then
+            echo "No Tor data changes — nothing to commit."
+            exit 0
+          fi
+          git commit -m "chore(data): weekly tor data refresh"
+          for attempt in 1 2 3; do
+            if git push; then exit 0; fi
+            echo "push rejected, rebasing (attempt $attempt)…"
+            git pull --rebase origin main
+          done
+          echo "push failed after retries" >&2
+          exit 1

@@ -13,6 +13,13 @@ function ensureDir(dir) {
 function fetchUrl(url) {
   return new Promise((resolve, reject) => {
     https.get(url, (res) => {
+      // Reject non-200 so a maintenance/error page is never parsed as CSV and
+      // written over the committed history.
+      if (res.statusCode !== 200) {
+        res.resume()
+        reject(new Error(`HTTP ${res.statusCode} fetching ${url}`))
+        return
+      }
       let data = ''
       res.on('data', chunk => data += chunk)
       res.on('end', () => resolve(data))
@@ -49,6 +56,28 @@ function parseCSV(content) {
   return data
 }
 
+function readJsonArray(file) {
+  if (!fs.existsSync(file)) return []
+  try {
+    const v = JSON.parse(fs.readFileSync(file, 'utf8'))
+    return Array.isArray(v) ? v : []
+  } catch {
+    return []
+  }
+}
+
+// Union two [{date, users}] series by date, fresh winning on any overlapping
+// date. Keeps committed dates the fresh fetch no longer includes — so if the
+// upstream ever stops serving the full history we preserve the committed
+// archive instead of clobbering it, while still picking up upstream revisions
+// to overlapping dates (fresh wins). Used for per-country files and global.
+function mergeByDate(fresh, existing) {
+  const byDate = new Map()
+  for (const r of existing) byDate.set(r.date, r)
+  for (const r of fresh) byDate.set(r.date, r)
+  return [...byDate.values()].sort((a, b) => a.date.localeCompare(b.date))
+}
+
 async function processDataset({ name, csvUrl, subDir }) {
   console.log(`\n=== Processing ${name} ===`)
   console.log(`Downloading from ${csvUrl}...`)
@@ -58,9 +87,11 @@ async function processDataset({ name, csvUrl, subDir }) {
   const rows = parseCSV(csvContent)
 
   if (rows.length === 0) {
-    console.error(`No rows parsed from ${name} CSV`)
-    console.log('First 500 chars of CSV:', csvContent.substring(0, 500))
-    return null
+    // A 200 response that parses to nothing means a broken/changed feed. Abort
+    // rather than continue: nothing is written this run, so the committed
+    // archive stays intact and CI fails loudly to flag the problem.
+    console.error('First 500 chars of CSV:', csvContent.substring(0, 500))
+    throw new Error(`No rows parsed from ${name} CSV — aborting to preserve committed data`)
   }
 
   console.log('First row keys:', Object.keys(rows[0]))
@@ -106,23 +137,42 @@ async function processDataset({ name, csvUrl, subDir }) {
 
   console.log(`Processing data for ${countryMap.size} countries...`)
 
-  // Write per-country files
+  // We MERGE with committed data rather than overwrite (see mergeByDate), so a
+  // truncated/partial fetch can't wipe years of history. Surface it loudly if
+  // the fetch is materially smaller or older than what's committed — the merge
+  // still preserves the archive, so we proceed (degrade gracefully) instead of
+  // failing. In normal operation the fetch is a superset and the merge is a
+  // no-op (byte-identical output, so no spurious diff).
+  const existingGlobalPath = path.join(outDir, 'global.json')
+  const existingGlobal = readJsonArray(existingGlobalPath)
+  const freshDates = Object.keys(globalData).sort()
+  const freshLast = freshDates[freshDates.length - 1]
+  const prevLast = existingGlobal.length ? existingGlobal[existingGlobal.length - 1].date : null
+  if (existingGlobal.length > freshDates.length * 1.05 || (prevLast && freshLast && freshLast < prevLast)) {
+    const msg = `${name}: fetch returned ${freshDates.length} points (→${freshLast}) vs committed ` +
+      `${existingGlobal.length} (→${prevLast}) — upstream may no longer serve the full period; ` +
+      `merging to preserve the committed archive.`
+    console.warn(`⚠️  ${msg}`)
+    if (process.env.GITHUB_ACTIONS) console.log(`::warning::${msg}`)
+  }
+
+  // Write per-country files (merged with any committed history).
   for (const [country, data] of countryMap.entries()) {
     const sorted = data.sort((a, b) => a.date.localeCompare(b.date))
     const filePath = path.join(outDir, `${country}.json`)
-    fs.writeFileSync(filePath, JSON.stringify(sorted, null, 2))
+    const merged = mergeByDate(sorted, readJsonArray(filePath))
+    countryMap.set(country, merged)  // downstream top-10/snapshot use the merged series
+    fs.writeFileSync(filePath, JSON.stringify(merged, null, 2))
   }
   console.log(`Wrote ${countryMap.size} country files`)
 
-  // Write global aggregated data
-  const globalArray = Object.entries(globalData)
+  // Write global aggregated data (merged with committed history).
+  const freshGlobal = Object.entries(globalData)
     .map(([date, users]) => ({ date, users: Math.round(users) }))
     .sort((a, b) => a.date.localeCompare(b.date))
+  const globalArray = mergeByDate(freshGlobal, existingGlobal)
 
-  fs.writeFileSync(
-    path.join(outDir, 'global.json'),
-    JSON.stringify(globalArray, null, 2)
-  )
+  fs.writeFileSync(existingGlobalPath, JSON.stringify(globalArray, null, 2))
   console.log(`Wrote global: ${globalArray.length} data points`)
 
   // Calculate top 10 countries by average users in the last 90 days
