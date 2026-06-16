@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-23T02:09:11.152Z",
+  "lastUpdated": "2026-06-16T05:40:10.871Z",
   "dataSource": "https://metrics.torproject.org/",
   "relay": {
     "countries": [
@@ -267,17 +267,17 @@
       "de",
       "br",
       "in",
-      "id",
       "fr",
+      "id",
       "nl",
       "es",
-      "eu",
+      "ua",
       "fi"
     ],
     "totalCountries": 258,
     "firstDate": "2011-03-06",
-    "lastDate": "2026-05-20",
-    "dataPoints": 5277
+    "lastDate": "2026-06-13",
+    "dataPoints": 5301
   },
   "bridge": {
     "countries": [
@@ -539,19 +539,19 @@
     "topCountries": [
       "ru",
       "us",
-      "de",
       "ir",
+      "de",
       "nl",
       "gb",
       "fr",
-      "in",
       "cn",
+      "in",
       "ua"
     ],
     "totalCountries": 254,
     "firstDate": "2011-09-21",
-    "lastDate": "2026-05-20",
-    "dataPoints": 5250
+    "lastDate": "2026-06-13",
+    "dataPoints": 5274
   },
   "countries": [
     "ad",
@@ -818,11 +818,11 @@
     "de",
     "br",
     "in",
-    "id",
     "fr",
+    "id",
     "nl",
     "es",
-    "eu",
+    "ua",
     "fi"
   ],
   "totalCountries": 258
