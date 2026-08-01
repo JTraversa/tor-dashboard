@@ -1,3 +1,5 @@
+import RepoLink from './RepoLink'
+
 export default function Header({ stats, dataType = 'relay' }) {
   const subtitle = dataType === 'bridge'
     ? 'Historical bridge user statistics by country — bridges bypass censorship in restricted regions'
@@ -8,6 +10,7 @@ export default function Header({ stats, dataType = 'relay' }) {
       <div>
         <h1>Historical Tor Data</h1>
         <div className="subtitle">{subtitle}</div>
+        <RepoLink />
       </div>
       <div className="header-stats">
         <div className="stat-box">
