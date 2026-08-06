@@ -35,6 +35,7 @@ export default function Controls({
   viewMode, setViewMode,
   mapMode, setMapMode,
   selectedCountry,
+  showSpikes, setShowSpikes,
 }) {
   const label = selectedCountry === 'global' ? 'Global' : selectedCountry.toUpperCase()
   const isMapView = viewMode === 'map'
@@ -122,6 +123,24 @@ export default function Controls({
                   {r.label}
                 </button>
               ))}
+            </div>
+          </div>
+
+          <div className="control-group">
+            <label>Spikes</label>
+            <div className="btn-group">
+              <button
+                className={showSpikes ? 'active' : ''}
+                onClick={() => setShowSpikes(true)}
+              >
+                Show
+              </button>
+              <button
+                className={!showSpikes ? 'active' : ''}
+                onClick={() => setShowSpikes(false)}
+              >
+                Hide
+              </button>
             </div>
           </div>
         </>

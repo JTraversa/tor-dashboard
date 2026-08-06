@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
-import { createChart, CrosshairMode, LineSeries, AreaSeries } from 'lightweight-charts'
-import { getCountryName } from '../utils/countries'
+import { useEffect, useRef } from 'react'
+import { createChart, CrosshairMode, LineSeries, AreaSeries, createSeriesMarkers } from 'lightweight-charts'
+import { UNEXPLAINED, categoryColor, markerCategory } from '../data/spikeEvents'
+import { useTheme } from '../hooks/useTheme'
 
 // Distinct color palette for country lines
 const COUNTRY_COLORS = [
@@ -9,18 +10,67 @@ const COUNTRY_COLORS = [
   '#6366f1', '#22c55e',
 ]
 
-export default function Chart({ data, chartType = 'area', countriesData = null, hiddenCountries = new Set(), showGlobal = true }) {
+/**
+ * Markers sit on the data line, just above the point they describe.
+ *
+ * An earlier version hung them from a transparent flat series so they formed
+ * one row across the top of the chart. That was the right call when there were
+ * thousands of them and a row was the only readable arrangement. Now that the
+ * censorship notes are rolled up to at most one per half-year, there are few
+ * enough to put each one where it belongs: on the peak its catalyst caused.
+ *
+ * `position: 'atPriceTop'` renders nothing in this library — verified in a
+ * real browser — which is what forced the rail in the first place. `aboveBar`
+ * against the real series is the working way to track the line.
+ */
+function buildMarkers(spikes, selectedSpikeId, theme) {
+  return spikes.map(s => ({
+    id: s.id,
+    time: s.markerDate,
+    position: 'aboveBar',
+    // Dots throughout. Direction arrows were tried and dropped: a censorship
+    // note covers a half-year containing moves in both directions, so a single
+    // arrow was picking one of them to stand for the rest. Square still marks
+    // a sustained anomaly, which is a property of the marker, not a claim.
+    shape: s.kind === 'shift' ? 'square' : 'circle',
+    color: categoryColor(markerCategory(s), theme),
+    size: s.id === selectedSpikeId ? 2.4 : 1.6,
+    // The "?" is reserved for markers nothing explains at all.
+    text: markerCategory(s) === UNEXPLAINED ? '?' : '',
+  }))
+}
+
+export default function Chart({
+  data,
+  chartType = 'area',
+  countriesData = null,
+  hiddenCountries = new Set(),
+  showGlobal = true,
+  spikes = [],
+  selectedSpikeId = null,
+  onSelectSpike,
+}) {
   const containerRef = useRef(null)
   const chartRef = useRef(null)
-  const [theme, setTheme] = useState(document.documentElement.getAttribute('data-theme') || 'dark')
+  const mainSeriesRef = useRef(null)
+  const markersRef = useRef(null)
+  // Spike props are mirrored into refs so the chart's own click/crosshair
+  // handlers, which are registered once per chart, can read current values
+  // without the chart being rebuilt on every selection change.
+  const onSelectRef = useRef(onSelectSpike)
+  const spikesRef = useRef(spikes)
+  const selectedSpikeIdRef = useRef(selectedSpikeId)
 
+  const theme = useTheme()
+
+  // Declared before the chart effect so it runs first in every commit: a
+  // rebuild triggered by a theme or chart-type change then reattaches markers
+  // from up-to-date refs.
   useEffect(() => {
-    const observer = new MutationObserver(() => {
-      setTheme(document.documentElement.getAttribute('data-theme') || 'dark')
-    })
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
-    return () => observer.disconnect()
-  }, [])
+    onSelectRef.current = onSelectSpike
+    spikesRef.current = spikes
+    selectedSpikeIdRef.current = selectedSpikeId
+  })
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -60,7 +110,11 @@ export default function Chart({ data, chartType = 'area', countriesData = null, 
         borderColor: borderColor,
         timeVisible: false,
         rightOffset: 5,
-        minBarSpacing: 0.5,
+        // 5,342 daily points need under 0.25px each to fit a ~1,200px chart.
+        // At the old 0.5 floor fitContent() could not compress that far and
+        // silently showed only the most recent ~6 years, so "ALL" hid
+        // everything before 2020 — including the 2013 and 2017 events.
+        minBarSpacing: 0.02,
       },
       handleScroll: { vertTouchDrag: false },
       width: containerRef.current.clientWidth,
@@ -75,13 +129,14 @@ export default function Chart({ data, chartType = 'area', countriesData = null, 
     })
 
     chartRef.current = chart
+    mainSeriesRef.current = null
+    markersRef.current = null
 
     // Render main / global line
     if (data && data.length > 0 && showGlobal) {
       const chartData = data.map(d => ({ time: d.date, value: d.users }))
-
       if (chartType === 'area') {
-        chart.addSeries(AreaSeries, {
+        mainSeriesRef.current = chart.addSeries(AreaSeries, {
           lineColor: '#2563eb',
           topColor: 'rgba(37, 99, 235, 0.3)',
           bottomColor: 'rgba(37, 99, 235, 0.02)',
@@ -89,16 +144,26 @@ export default function Chart({ data, chartType = 'area', countriesData = null, 
           priceLineVisible: false,
           lastValueVisible: true,
           title: countriesData ? 'Global' : '',
-        }).setData(chartData)
+        })
       } else {
-        chart.addSeries(LineSeries, {
+        mainSeriesRef.current = chart.addSeries(LineSeries, {
           color: '#2563eb',
           lineWidth: 2,
           priceLineVisible: false,
           lastValueVisible: true,
           title: countriesData ? 'Global' : '',
-        }).setData(chartData)
+        })
       }
+      mainSeriesRef.current.setData(chartData)
+
+      // Attach markers as part of building the chart, reading the current
+      // props from refs. The effect below then updates them in place; that
+      // keeps spike changes from forcing a full chart rebuild, without
+      // needing extra state to signal that the series is ready.
+      markersRef.current = createSeriesMarkers(
+        mainSeriesRef.current,
+        buildMarkers(spikesRef.current, selectedSpikeIdRef.current, theme)
+      )
     }
 
     // Render per-country lines
@@ -124,6 +189,26 @@ export default function Chart({ data, chartType = 'area', countriesData = null, 
 
     chart.timeScale().fitContent()
 
+    // Clicking a marker opens its detail panel; clicking bare chart closes it.
+    // hoveredObjectId is the marker id set by the series-markers plugin.
+    chart.subscribeClick((param) => {
+      const handler = onSelectRef.current
+      if (!handler) return
+      const id = param.hoveredObjectId
+      if (typeof id === 'string' && spikesRef.current.some(s => s.id === id)) {
+        handler(id)
+      } else {
+        handler(null)
+      }
+    })
+
+    chart.subscribeCrosshairMove((param) => {
+      if (!containerRef.current) return
+      const id = param.hoveredObjectId
+      const overMarker = typeof id === 'string' && spikesRef.current.some(s => s.id === id)
+      containerRef.current.style.cursor = overMarker ? 'pointer' : 'default'
+    })
+
     const ro = new ResizeObserver(() => {
       if (containerRef.current) {
         chart.applyOptions({
@@ -138,8 +223,17 @@ export default function Chart({ data, chartType = 'area', countriesData = null, 
       ro.disconnect()
       chart.remove()
       chartRef.current = null
-    }
+      mainSeriesRef.current = null
+      markersRef.current = null
+      }
   }, [data, chartType, theme, countriesData, hiddenCountries, showGlobal])
+
+  // Update markers in place when the spike set or selection changes, so
+  // opening a panel does not tear down and refit the whole chart.
+  useEffect(() => {
+    if (!markersRef.current) return
+    markersRef.current.setMarkers(buildMarkers(spikes, selectedSpikeId, theme))
+  }, [spikes, selectedSpikeId, theme])
 
   return <div ref={containerRef} className="chart-container" style={{ width: '100%', height: '100%' }} />
 }

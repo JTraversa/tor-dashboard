@@ -1,0 +1,166 @@
+[
+  {
+    "start": "2016-02-18",
+    "end": "2016-04-08",
+    "countries": 14,
+    "leadShare": 0.227,
+    "basis": "sustained",
+    "top": [
+      {
+        "cc": "ir",
+        "excess": 56100
+      },
+      {
+        "cc": "cn",
+        "excess": 29484
+      },
+      {
+        "cc": "il",
+        "excess": 27683
+      },
+      {
+        "cc": "id",
+        "excess": 22365
+      },
+      {
+        "cc": "tr",
+        "excess": 15950
+      },
+      {
+        "cc": "es",
+        "excess": 14520
+      },
+      {
+        "cc": "ar",
+        "excess": 13875
+      },
+      {
+        "cc": "ae",
+        "excess": 13277
+      }
+    ]
+  },
+  {
+    "start": "2018-05-20",
+    "end": "2018-12-26",
+    "countries": 36,
+    "leadShare": 0.245,
+    "basis": "sustained",
+    "top": [
+      {
+        "cc": "id",
+        "excess": 628038
+      },
+      {
+        "cc": "ir",
+        "excess": 434915
+      },
+      {
+        "cc": "vn",
+        "excess": 253350
+      },
+      {
+        "cc": "in",
+        "excess": 212760
+      },
+      {
+        "cc": "th",
+        "excess": 181753
+      },
+      {
+        "cc": "kz",
+        "excess": 163325
+      },
+      {
+        "cc": "eg",
+        "excess": 136719
+      },
+      {
+        "cc": "ph",
+        "excess": 102240
+      }
+    ]
+  },
+  {
+    "start": "2018-05-24",
+    "end": "2018-06-23",
+    "countries": 12,
+    "leadShare": 0.182,
+    "basis": "concurrent",
+    "top": [
+      {
+        "cc": "vn",
+        "excess": 13050
+      },
+      {
+        "cc": "ir",
+        "excess": 12747
+      },
+      {
+        "cc": "id",
+        "excess": 12033
+      },
+      {
+        "cc": "in",
+        "excess": 7834
+      },
+      {
+        "cc": "kz",
+        "excess": 5197
+      },
+      {
+        "cc": "eg",
+        "excess": 4978
+      },
+      {
+        "cc": "th",
+        "excess": 4438
+      },
+      {
+        "cc": "ph",
+        "excess": 3309
+      }
+    ]
+  },
+  {
+    "start": "2018-06-06",
+    "end": "2018-06-18",
+    "countries": 11,
+    "leadShare": 0.221,
+    "basis": "burst",
+    "top": [
+      {
+        "cc": "vn",
+        "excess": 13050
+      },
+      {
+        "cc": "id",
+        "excess": 12033
+      },
+      {
+        "cc": "in",
+        "excess": 7834
+      },
+      {
+        "cc": "kz",
+        "excess": 5197
+      },
+      {
+        "cc": "eg",
+        "excess": 4978
+      },
+      {
+        "cc": "th",
+        "excess": 4438
+      },
+      {
+        "cc": "ph",
+        "excess": 3309
+      },
+      {
+        "cc": "ua",
+        "excess": 2931
+      }
+    ]
+  }
+]

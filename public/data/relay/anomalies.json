@@ -1,0 +1,986 @@
+[
+  {
+    "start": "2011-03-06",
+    "end": "2011-10-30",
+    "countries": 26,
+    "leadShare": 0.347,
+    "basis": "sustained",
+    "top": [
+      {
+        "cc": "kr",
+        "excess": 1107242
+      },
+      {
+        "cc": "in",
+        "excess": 498462
+      },
+      {
+        "cc": "jp",
+        "excess": 432452
+      },
+      {
+        "cc": "ru",
+        "excess": 380959
+      },
+      {
+        "cc": "kz",
+        "excess": 124608
+      },
+      {
+        "cc": "ae",
+        "excess": 72078
+      },
+      {
+        "cc": "my",
+        "excess": 61992
+      },
+      {
+        "cc": "eg",
+        "excess": 51000
+      }
+    ]
+  },
+  {
+    "start": "2013-08-21",
+    "end": "2013-09-30",
+    "countries": 108,
+    "leadShare": 0.094,
+    "basis": "concurrent",
+    "top": [
+      {
+        "cc": "br",
+        "excess": 477256
+      },
+      {
+        "cc": "us",
+        "excess": 406216
+      },
+      {
+        "cc": "de",
+        "excess": 307839
+      },
+      {
+        "cc": "fr",
+        "excess": 290135
+      },
+      {
+        "cc": "es",
+        "excess": 234965
+      },
+      {
+        "cc": "in",
+        "excess": 212513
+      },
+      {
+        "cc": "mx",
+        "excess": 210962
+      },
+      {
+        "cc": "ar",
+        "excess": 205601
+      }
+    ]
+  },
+  {
+    "start": "2013-08-23",
+    "end": "2014-04-12",
+    "countries": 164,
+    "leadShare": 0.103,
+    "basis": "sustained",
+    "top": [
+      {
+        "cc": "br",
+        "excess": 22984539
+      },
+      {
+        "cc": "fr",
+        "excess": 14765355
+      },
+      {
+        "cc": "in",
+        "excess": 13959552
+      },
+      {
+        "cc": "es",
+        "excess": 13102096
+      },
+      {
+        "cc": "pl",
+        "excess": 12453392
+      },
+      {
+        "cc": "us",
+        "excess": 12247530
+      },
+      {
+        "cc": "it",
+        "excess": 10007854
+      },
+      {
+        "cc": "ar",
+        "excess": 9882247
+      }
+    ]
+  },
+  {
+    "start": "2013-09-08",
+    "end": "2013-09-27",
+    "countries": 107,
+    "leadShare": 0.094,
+    "basis": "burst",
+    "top": [
+      {
+        "cc": "br",
+        "excess": 477256
+      },
+      {
+        "cc": "us",
+        "excess": 406216
+      },
+      {
+        "cc": "de",
+        "excess": 307839
+      },
+      {
+        "cc": "fr",
+        "excess": 290135
+      },
+      {
+        "cc": "es",
+        "excess": 234965
+      },
+      {
+        "cc": "in",
+        "excess": 212513
+      },
+      {
+        "cc": "mx",
+        "excess": 210962
+      },
+      {
+        "cc": "ar",
+        "excess": 205601
+      }
+    ]
+  },
+  {
+    "start": "2018-06-10",
+    "end": "2018-06-10",
+    "countries": 8,
+    "leadShare": 0.389,
+    "basis": "sustained",
+    "top": [
+      {
+        "cc": "bg",
+        "excess": 2397227
+      },
+      {
+        "cc": "ve",
+        "excess": 1643375
+      },
+      {
+        "cc": "jp",
+        "excess": 913900
+      },
+      {
+        "cc": "tr",
+        "excess": 781815
+      },
+      {
+        "cc": "kg",
+        "excess": 276360
+      },
+      {
+        "cc": "ge",
+        "excess": 90463
+      },
+      {
+        "cc": "tz",
+        "excess": 54426
+      },
+      {
+        "cc": "mn",
+        "excess": 6900
+      }
+    ]
+  },
+  {
+    "start": "2020-04-10",
+    "end": "2020-04-16",
+    "countries": 8,
+    "leadShare": 0.329,
+    "basis": "sustained",
+    "top": [
+      {
+        "cc": "bg",
+        "excess": 2002764
+      },
+      {
+        "cc": "lt",
+        "excess": 1845888
+      },
+      {
+        "cc": "by",
+        "excess": 1488250
+      },
+      {
+        "cc": "gy",
+        "excess": 305580
+      },
+      {
+        "cc": "cy",
+        "excess": 262782
+      },
+      {
+        "cc": "cl",
+        "excess": 168912
+      },
+      {
+        "cc": "la",
+        "excess": 12384
+      },
+      {
+        "cc": "mz",
+        "excess": 4715
+      }
+    ]
+  },
+  {
+    "start": "2020-12-23",
+    "end": "2021-04-03",
+    "countries": 16,
+    "leadShare": 0.486,
+    "basis": "sustained",
+    "top": [
+      {
+        "cc": "tr",
+        "excess": 7465920
+      },
+      {
+        "cc": "lt",
+        "excess": 2251140
+      },
+      {
+        "cc": "ie",
+        "excess": 1872624
+      },
+      {
+        "cc": "hk",
+        "excess": 1179420
+      },
+      {
+        "cc": "sg",
+        "excess": 771456
+      },
+      {
+        "cc": "tm",
+        "excess": 761799
+      },
+      {
+        "cc": "is",
+        "excess": 295017
+      },
+      {
+        "cc": "dk",
+        "excess": 156390
+      }
+    ]
+  },
+  {
+    "start": "2020-12-25",
+    "end": "2021-02-03",
+    "countries": 37,
+    "leadShare": 0.21,
+    "basis": "burst",
+    "top": [
+      {
+        "cc": "id",
+        "excess": 407248
+      },
+      {
+        "cc": "fr",
+        "excess": 359026
+      },
+      {
+        "cc": "gb",
+        "excess": 160427
+      },
+      {
+        "cc": "th",
+        "excess": 154208
+      },
+      {
+        "cc": "ch",
+        "excess": 117917
+      },
+      {
+        "cc": "lt",
+        "excess": 105965
+      },
+      {
+        "cc": "nl",
+        "excess": 84422
+      },
+      {
+        "cc": "tr",
+        "excess": 62146
+      }
+    ]
+  },
+  {
+    "start": "2020-12-25",
+    "end": "2021-01-28",
+    "countries": 39,
+    "leadShare": 0.205,
+    "basis": "concurrent",
+    "top": [
+      {
+        "cc": "id",
+        "excess": 407248
+      },
+      {
+        "cc": "fr",
+        "excess": 359026
+      },
+      {
+        "cc": "gb",
+        "excess": 160427
+      },
+      {
+        "cc": "th",
+        "excess": 154208
+      },
+      {
+        "cc": "ch",
+        "excess": 117917
+      },
+      {
+        "cc": "lt",
+        "excess": 105965
+      },
+      {
+        "cc": "nl",
+        "excess": 84422
+      },
+      {
+        "cc": "tr",
+        "excess": 62146
+      }
+    ]
+  },
+  {
+    "start": "2021-08-25",
+    "end": "2021-09-05",
+    "countries": 8,
+    "leadShare": 0.371,
+    "basis": "burst",
+    "top": [
+      {
+        "cc": "kr",
+        "excess": 30411
+      },
+      {
+        "cc": "pl",
+        "excess": 27276
+      },
+      {
+        "cc": "ie",
+        "excess": 15355
+      },
+      {
+        "cc": "nz",
+        "excess": 2751
+      },
+      {
+        "cc": "iq",
+        "excess": 1662
+      },
+      {
+        "cc": "si",
+        "excess": 1541
+      },
+      {
+        "cc": "ps",
+        "excess": 1540
+      },
+      {
+        "cc": "et",
+        "excess": 1372
+      }
+    ]
+  },
+  {
+    "start": "2021-08-30",
+    "end": "2021-09-14",
+    "countries": 10,
+    "leadShare": 0.305,
+    "basis": "sustained",
+    "top": [
+      {
+        "cc": "ua",
+        "excess": 4927973
+      },
+      {
+        "cc": "ro",
+        "excess": 3965241
+      },
+      {
+        "cc": "pl",
+        "excess": 2795082
+      },
+      {
+        "cc": "md",
+        "excess": 2661084
+      },
+      {
+        "cc": "nl",
+        "excess": 1537888
+      },
+      {
+        "cc": "bb",
+        "excess": 150775
+      },
+      {
+        "cc": "cy",
+        "excess": 80106
+      },
+      {
+        "cc": "ai",
+        "excess": 13207
+      }
+    ]
+  },
+  {
+    "start": "2021-09-17",
+    "end": "2021-09-19",
+    "countries": 9,
+    "leadShare": 0.483,
+    "basis": "sustained",
+    "top": [
+      {
+        "cc": "uz",
+        "excess": 8912987
+      },
+      {
+        "cc": "ro",
+        "excess": 3965241
+      },
+      {
+        "cc": "pl",
+        "excess": 2795082
+      },
+      {
+        "cc": "md",
+        "excess": 2661084
+      },
+      {
+        "cc": "cy",
+        "excess": 80106
+      },
+      {
+        "cc": "ai",
+        "excess": 13207
+      },
+      {
+        "cc": "bz",
+        "excess": 9342
+      },
+      {
+        "cc": "sr",
+        "excess": 8446
+      }
+    ]
+  },
+  {
+    "start": "2021-12-23",
+    "end": "2022-01-22",
+    "countries": 17,
+    "leadShare": 0.377,
+    "basis": "burst",
+    "top": [
+      {
+        "cc": "lt",
+        "excess": 81227
+      },
+      {
+        "cc": "vn",
+        "excess": 46001
+      },
+      {
+        "cc": "mx",
+        "excess": 26076
+      },
+      {
+        "cc": "il",
+        "excess": 19312
+      },
+      {
+        "cc": "pk",
+        "excess": 9409
+      },
+      {
+        "cc": "bd",
+        "excess": 8958
+      },
+      {
+        "cc": "hk",
+        "excess": 7955
+      },
+      {
+        "cc": "ba",
+        "excess": 2855
+      }
+    ]
+  },
+  {
+    "start": "2021-12-29",
+    "end": "2022-07-04",
+    "countries": 31,
+    "leadShare": 0.231,
+    "basis": "sustained",
+    "top": [
+      {
+        "cc": "fi",
+        "excess": 13086047
+      },
+      {
+        "cc": "de",
+        "excess": 12298248
+      },
+      {
+        "cc": "uz",
+        "excess": 8912987
+      },
+      {
+        "cc": "lt",
+        "excess": 6054120
+      },
+      {
+        "cc": "nl",
+        "excess": 3654300
+      },
+      {
+        "cc": "sg",
+        "excess": 2813052
+      },
+      {
+        "cc": "pl",
+        "excess": 2795082
+      },
+      {
+        "cc": "vn",
+        "excess": 2538032
+      }
+    ]
+  },
+  {
+    "start": "2022-05-26",
+    "end": "2022-06-06",
+    "countries": 8,
+    "leadShare": 0.379,
+    "basis": "burst",
+    "top": [
+      {
+        "cc": "fi",
+        "excess": 407342
+      },
+      {
+        "cc": "de",
+        "excess": 314919
+      },
+      {
+        "cc": "lt",
+        "excess": 205680
+      },
+      {
+        "cc": "sg",
+        "excess": 91671
+      },
+      {
+        "cc": "ro",
+        "excess": 38771
+      },
+      {
+        "cc": "ly",
+        "excess": 12988
+      },
+      {
+        "cc": "bz",
+        "excess": 1445
+      },
+      {
+        "cc": "cm",
+        "excess": 1132
+      }
+    ]
+  },
+  {
+    "start": "2023-09-17",
+    "end": "2023-09-23",
+    "countries": 27,
+    "leadShare": 0.291,
+    "basis": "burst",
+    "top": [
+      {
+        "cc": "jp",
+        "excess": 58732
+      },
+      {
+        "cc": "kr",
+        "excess": 21196
+      },
+      {
+        "cc": "be",
+        "excess": 15806
+      },
+      {
+        "cc": "bg",
+        "excess": 11954
+      },
+      {
+        "cc": "pt",
+        "excess": 7111
+      },
+      {
+        "cc": "ma",
+        "excess": 6981
+      },
+      {
+        "cc": "ba",
+        "excess": 6264
+      },
+      {
+        "cc": "dz",
+        "excess": 5766
+      }
+    ]
+  },
+  {
+    "start": "2024-11-02",
+    "end": "2024-11-02",
+    "countries": 8,
+    "leadShare": 0.36,
+    "basis": "concurrent",
+    "top": [
+      {
+        "cc": "us",
+        "excess": 678876
+      },
+      {
+        "cc": "lt",
+        "excess": 600782
+      },
+      {
+        "cc": "sg",
+        "excess": 247629
+      },
+      {
+        "cc": "eu",
+        "excess": 145397
+      },
+      {
+        "cc": "ro",
+        "excess": 118719
+      },
+      {
+        "cc": "nl",
+        "excess": 76313
+      },
+      {
+        "cc": "mu",
+        "excess": 15146
+      },
+      {
+        "cc": "ee",
+        "excess": 3046
+      }
+    ]
+  },
+  {
+    "start": "2024-11-04",
+    "end": "2024-11-04",
+    "countries": 8,
+    "leadShare": 0.348,
+    "basis": "concurrent",
+    "top": [
+      {
+        "cc": "us",
+        "excess": 678876
+      },
+      {
+        "cc": "lt",
+        "excess": 600782
+      },
+      {
+        "cc": "sg",
+        "excess": 247629
+      },
+      {
+        "cc": "eu",
+        "excess": 145397
+      },
+      {
+        "cc": "ro",
+        "excess": 118719
+      },
+      {
+        "cc": "nl",
+        "excess": 76313
+      },
+      {
+        "cc": "tr",
+        "excess": 68509
+      },
+      {
+        "cc": "mu",
+        "excess": 15146
+      }
+    ]
+  },
+  {
+    "start": "2024-11-29",
+    "end": "2024-11-30",
+    "countries": 8,
+    "leadShare": 0.313,
+    "basis": "concurrent",
+    "top": [
+      {
+        "cc": "de",
+        "excess": 1383258
+      },
+      {
+        "cc": "us",
+        "excess": 1048259
+      },
+      {
+        "cc": "fi",
+        "excess": 880691
+      },
+      {
+        "cc": "lt",
+        "excess": 600782
+      },
+      {
+        "cc": "sg",
+        "excess": 247629
+      },
+      {
+        "cc": "eu",
+        "excess": 145397
+      },
+      {
+        "cc": "tr",
+        "excess": 106964
+      },
+      {
+        "cc": "bz",
+        "excess": 1603
+      }
+    ]
+  },
+  {
+    "start": "2025-08-31",
+    "end": "2025-11-14",
+    "countries": 132,
+    "leadShare": 0.276,
+    "basis": "concurrent",
+    "top": [
+      {
+        "cc": "us",
+        "excess": 5031658
+      },
+      {
+        "cc": "de",
+        "excess": 2814111
+      },
+      {
+        "cc": "nl",
+        "excess": 975463
+      },
+      {
+        "cc": "fr",
+        "excess": 971969
+      },
+      {
+        "cc": "ca",
+        "excess": 860648
+      },
+      {
+        "cc": "ru",
+        "excess": 657915
+      },
+      {
+        "cc": "it",
+        "excess": 433337
+      },
+      {
+        "cc": "gb",
+        "excess": 400991
+      }
+    ]
+  },
+  {
+    "start": "2025-08-31",
+    "end": "2026-07-24",
+    "countries": 198,
+    "leadShare": 0.258,
+    "basis": "sustained",
+    "top": [
+      {
+        "cc": "us",
+        "excess": 209329020
+      },
+      {
+        "cc": "de",
+        "excess": 141921598
+      },
+      {
+        "cc": "in",
+        "excess": 30160088
+      },
+      {
+        "cc": "nl",
+        "excess": 26933726
+      },
+      {
+        "cc": "sn",
+        "excess": 22577986
+      },
+      {
+        "cc": "gb",
+        "excess": 21939349
+      },
+      {
+        "cc": "fr",
+        "excess": 19157521
+      },
+      {
+        "cc": "br",
+        "excess": 17903360
+      }
+    ]
+  },
+  {
+    "start": "2025-09-01",
+    "end": "2025-11-19",
+    "countries": 129,
+    "leadShare": 0.276,
+    "basis": "burst",
+    "top": [
+      {
+        "cc": "us",
+        "excess": 5031658
+      },
+      {
+        "cc": "de",
+        "excess": 2814111
+      },
+      {
+        "cc": "nl",
+        "excess": 975463
+      },
+      {
+        "cc": "fr",
+        "excess": 971969
+      },
+      {
+        "cc": "ca",
+        "excess": 860648
+      },
+      {
+        "cc": "ru",
+        "excess": 657915
+      },
+      {
+        "cc": "it",
+        "excess": 433337
+      },
+      {
+        "cc": "gb",
+        "excess": 400991
+      }
+    ]
+  },
+  {
+    "start": "2025-12-02",
+    "end": "2026-01-27",
+    "countries": 133,
+    "leadShare": 0.161,
+    "basis": "concurrent",
+    "top": [
+      {
+        "cc": "id",
+        "excess": 1153272
+      },
+      {
+        "cc": "in",
+        "excess": 666752
+      },
+      {
+        "cc": "tr",
+        "excess": 358816
+      },
+      {
+        "cc": "ph",
+        "excess": 314449
+      },
+      {
+        "cc": "mx",
+        "excess": 313746
+      },
+      {
+        "cc": "th",
+        "excess": 266268
+      },
+      {
+        "cc": "pk",
+        "excess": 213609
+      },
+      {
+        "cc": "vn",
+        "excess": 208387
+      }
+    ]
+  },
+  {
+    "start": "2025-12-07",
+    "end": "2026-01-25",
+    "countries": 128,
+    "leadShare": 0.163,
+    "basis": "burst",
+    "top": [
+      {
+        "cc": "id",
+        "excess": 1153272
+      },
+      {
+        "cc": "in",
+        "excess": 666752
+      },
+      {
+        "cc": "tr",
+        "excess": 358816
+      },
+      {
+        "cc": "ph",
+        "excess": 314449
+      },
+      {
+        "cc": "mx",
+        "excess": 313746
+      },
+      {
+        "cc": "th",
+        "excess": 266268
+      },
+      {
+        "cc": "pk",
+        "excess": 213609
+      },
+      {
+        "cc": "vn",
+        "excess": 208387
+      }
+    ]
+  }
+]

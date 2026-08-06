@@ -8,7 +8,10 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "collect": "node collect-data.cjs"
+    "collect": "node collect-data.cjs && node detect-anomalies.mjs && node collect-timeline.mjs && node build-periods.mjs",
+    "anomalies": "node detect-anomalies.mjs",
+    "timeline": "node collect-timeline.mjs",
+    "periods": "node build-periods.mjs"
   },
   "dependencies": {
     "d3-geo": "^3.1.1",

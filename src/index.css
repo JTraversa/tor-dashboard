@@ -453,6 +453,501 @@ select {
   color: var(--text-secondary);
 }
 
+/* Spike Annotations */
+.spike-legend {
+  position: absolute;
+  bottom: 32px;
+  left: 40px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  /* Keep clear of the open panel (380px wide, 70px from the right edge).
+     With six categories the legend is wide enough to run underneath it and
+     have its last entries clipped. */
+  max-width: calc(100% - 480px);
+  padding: 5px 10px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  font-size: 10px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  color: var(--text-secondary);
+  pointer-events: auto;
+}
+
+.spike-legend-count {
+  color: var(--text-primary);
+  font-weight: 600;
+  padding-right: 10px;
+  border-right: 1px solid var(--border);
+}
+
+.spike-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: help;
+}
+
+.spike-legend-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Shape key, so the square markers are not mistaken for a fifth category */
+.spike-legend-dot-square {
+  border-radius: 1px;
+  background: transparent;
+  border: 1.5px solid var(--text-secondary);
+}
+
+.spike-panel {
+  position: absolute;
+  /* Clears the marker row. At the old 40px the panel sat on top of the very
+     markers it describes, so once it was open every marker behind it was
+     unclickable and you could not move to the next one. */
+  top: 76px;
+  right: 70px;
+  width: 380px;
+  max-width: calc(100% - 90px);
+  max-height: calc(100% - 90px);
+  overflow-y: auto;
+  z-index: 60;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.45);
+  padding: 12px 14px 14px;
+}
+
+[data-theme="light"] .spike-panel {
+  box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+}
+
+.spike-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-left: 3px solid var(--border);
+  padding-left: 8px;
+  margin-bottom: 8px;
+}
+
+.spike-panel-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-weight: 600;
+}
+
+.spike-panel-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.spike-panel-kind {
+  padding: 1px 5px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  font-size: 9px;
+  opacity: 0.8;
+}
+
+/* Provenance chip: says the explanation came from Tor's timeline rather than
+   from a hand-written entry, so the two are never mistaken for each other. */
+.spike-panel-src {
+  padding: 1px 5px;
+  border-radius: 2px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+}
+
+/* Tor's detector agreeing with a marker that already has a cause. Quiet: it
+   adds confidence, not information. */
+.spike-panel-stats .stat-up { color: var(--success); }
+.spike-panel-stats .stat-down { color: var(--error); }
+
+.period-events { margin-bottom: 4px; }
+
+.period-event {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.period-event:last-child { border-bottom: none; }
+
+.period-event-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 3px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 10px;
+}
+
+.period-event-cc {
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+}
+
+.period-event-move { font-weight: 600; }
+
+.period-event-date { color: var(--text-secondary); margin-left: auto; }
+
+.period-event-rep {
+  padding: 0 4px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--text-secondary);
+}
+
+.period-event-desc {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text-primary);
+}
+
+.period-event-impact {
+  margin-top: 2px;
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+.period-event-impact a {
+  margin-left: 6px;
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.period-event-impact a:hover { text-decoration: underline; }
+
+.period-rest {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.period-rest > label {
+  display: block;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+}
+.period-rest ul { list-style: none; margin: 0; padding: 0; }
+.period-rest li {
+  display: flex;
+  gap: 8px;
+  padding: 3px 0;
+  font-size: 11px;
+  line-height: 1.4;
+}
+.period-rest .ctx-date {
+  flex-shrink: 0;
+  width: 52px;
+  color: var(--text-secondary);
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 10px;
+}
+.period-rest .ctx-desc { color: var(--text-primary); }
+
+.spike-panel-corroboration {
+  margin-top: 10px;
+  padding: 6px 8px;
+  background: var(--bg-tertiary);
+  border-left: 2px solid #38bdf8;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* Drops have no marker of their own, so this is the only place they appear. */
+.spike-panel-drops {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.spike-panel-drops > label {
+  display: block;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.spike-panel-drops ul { list-style: none; margin: 0; padding: 0; }
+
+.spike-panel-drops li {
+  display: flex;
+  gap: 8px;
+  padding: 3px 0;
+  font-size: 11px;
+  line-height: 1.4;
+  border-bottom: 1px solid var(--border);
+}
+.spike-panel-drops li:last-child { border-bottom: none; }
+
+/* Who produced a global spike. A stacked bar rather than a list, because the
+   question it answers is "was this one country or many?" and a shape answers
+   that faster than percentages do. */
+.spike-panel-driver {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.spike-panel-driver > label {
+  display: block;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.spike-panel-bar {
+  display: flex;
+  width: 100%;
+  height: 18px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.spike-panel-bar-seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 9px;
+  color: #fff;
+  overflow: hidden;
+  border-right: 1px solid var(--bg-secondary);
+}
+.spike-panel-bar-seg:last-child { border-right: none; }
+/* Descending weight, so the leader reads as the loudest segment. */
+.spike-panel-bar-seg:nth-child(1) { background: #2563eb; }
+.spike-panel-bar-seg:nth-child(2) { background: #4f7fe0; }
+.spike-panel-bar-seg:nth-child(3) { background: #6f97e8; }
+.spike-panel-bar-seg:nth-child(4) { background: #8faeef; }
+.spike-panel-bar-seg:nth-child(5) { background: #afc5f5; }
+.spike-panel-bar-seg:nth-child(6) { background: #cfdcfa; }
+
+/* Events that merely overlap the window. Visually quieter than everything
+   above it, because it is explicitly not an explanation. */
+.spike-panel-context {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.spike-panel-context > label {
+  display: block;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.spike-panel-context ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.spike-panel-context li {
+  display: flex;
+  gap: 8px;
+  padding: 3px 0;
+  font-size: 11px;
+  line-height: 1.4;
+  border-bottom: 1px solid var(--border);
+}
+.spike-panel-context li:last-child { border-bottom: none; }
+
+.spike-panel-context .ctx-date {
+  flex-shrink: 0;
+  width: 68px;
+  color: var(--text-secondary);
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 10px;
+}
+
+.spike-panel-context .ctx-desc { color: var(--text-primary); }
+
+.spike-panel-context .ctx-desc a {
+  margin-left: 6px;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 10px;
+  white-space: nowrap;
+}
+.spike-panel-context .ctx-desc a:hover { text-decoration: underline; }
+
+/* Warns that a country label is at its least reliable. Given a left rule
+   rather than italics because it is a caution, not an aside. */
+.spike-panel-caveat {
+  margin-top: 8px;
+  padding: 6px 8px;
+  border-left: 2px solid var(--accent);
+  background: var(--bg-tertiary);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+.spike-panel-caveat strong { color: var(--text-primary); }
+
+.spike-panel-context-note {
+  margin-top: 6px;
+  font-size: 10px;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.spike-panel-close {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+  transition: color 0.15s;
+}
+.spike-panel-close:hover { color: var(--text-primary); }
+
+.spike-panel-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.35;
+  margin-bottom: 10px;
+}
+
+.spike-panel-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px 12px;
+  padding: 8px 10px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  margin-bottom: 10px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+.spike-panel-stats label {
+  display: block;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  margin-bottom: 1px;
+}
+
+.spike-panel-stats span {
+  font-size: 12px;
+  color: var(--text-primary);
+}
+
+.spike-panel-summary {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  /* No inner scroll here. The panel itself scrolls, and nesting a second
+     scroll region inside it means a wheel gesture over the prose moves the
+     prose while the same gesture two pixels lower moves the panel. */
+}
+
+.spike-panel-peers {
+  margin-bottom: 12px;
+}
+
+.spike-panel-peers > label {
+  display: block;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+.spike-panel-peer-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.spike-panel-peer {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  padding: 3px 7px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  font-size: 11px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  color: var(--text-primary);
+}
+
+.spike-panel-peer em {
+  font-style: normal;
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.spike-panel-sources > label {
+  display: block;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+.spike-panel-sources a {
+  display: block;
+  padding: 6px 8px;
+  margin-bottom: 4px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+.spike-panel-sources a:hover { border-color: var(--accent); }
+
+.spike-panel-sources .src-title {
+  display: block;
+  font-size: 12px;
+  color: var(--accent);
+  line-height: 1.4;
+}
+
+.spike-panel-sources .src-pub {
+  display: block;
+  font-size: 10px;
+  color: var(--text-secondary);
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  margin-top: 2px;
+}
+
 /* Footer */
 .dashboard-footer {
   background: var(--bg-secondary);

@@ -87,9 +87,74 @@ export function useTorData() {
     return cache.current[`${dataType}/snapshot`] || {}
   }
 
+  // Network-wide spike windows, precomputed by detect-anomalies.mjs. Absent
+  // file is not an error: the dashboard just falls back to leaving those
+  // spikes unlabelled.
+  async function loadAnomalies(dataType) {
+    const key = `${dataType}/anomalies`
+    if (cache.current[key]) return cache.current[key]
+    try {
+      const data = await fetch(`${BASE}/${dataType}/anomalies.json`).then(r => {
+        if (!r.ok) throw new Error(`Failed to load ${dataType} anomalies`)
+        return r.json()
+      })
+      cache.current[key] = Array.isArray(data) ? data : []
+    } catch {
+      cache.current[key] = []
+    }
+    return cache.current[key]
+  }
+
+  function getAnomalies(dataType) {
+    return cache.current[`${dataType}/anomalies`] || []
+  }
+
+  // The Tor Project's own event timeline, built by collect-timeline.mjs. Not
+  // split by data type — it is one list covering relay and bridge alike. Like
+  // anomalies, a missing file degrades to "no annotations" rather than erroring.
+  async function loadTimeline() {
+    if (cache.current.timeline) return cache.current.timeline
+    try {
+      const data = await fetch(`${BASE}/timeline.json`).then(r => {
+        if (!r.ok) throw new Error('Failed to load timeline')
+        return r.json()
+      })
+      cache.current.timeline = Array.isArray(data?.events) ? data.events : []
+    } catch {
+      cache.current.timeline = []
+    }
+    return cache.current.timeline
+  }
+
+  function getTimeline() {
+    return cache.current.timeline || []
+  }
+
+  // Half-yearly censorship notes for the worldwide chart, from
+  // build-periods.mjs. Not split by data type: the events are the same either
+  // way, only their measured impact differs.
+  async function loadPeriods() {
+    if (cache.current.periods) return cache.current.periods
+    try {
+      const data = await fetch(`${BASE}/periods.json`).then(r => {
+        if (!r.ok) throw new Error('Failed to load periods')
+        return r.json()
+      })
+      cache.current.periods = Array.isArray(data) ? data : []
+    } catch {
+      cache.current.periods = []
+    }
+    return cache.current.periods
+  }
+
+  function getPeriods() {
+    return cache.current.periods || []
+  }
+
+
   return {
     meta, loading, error,
-    loadCountryData, loadGlobalData, loadCountries, loadSnapshot,
-    getCountryData, getGlobalData, getSnapshot,
+    loadCountryData, loadGlobalData, loadCountries, loadSnapshot, loadAnomalies, loadTimeline, loadPeriods,
+    getCountryData, getGlobalData, getSnapshot, getAnomalies, getTimeline, getPeriods,
   }
 }
