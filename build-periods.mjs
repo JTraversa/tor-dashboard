@@ -41,6 +41,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { isCensorshipEvent } from './src/data/censorshipEvents.js'
+import { snapToTurningPoint } from './src/utils/snap.js'
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url))
 const DATA_DIR = path.join(ROOT, 'public', 'data')
@@ -61,26 +62,6 @@ const HEADLINE_COUNT = 6
 // the most extreme movement anywhere in this dataset — produced no marker, and
 // the chart implied nothing had happened for two years.
 const MIN_RATIO = 2
-
-// Snapping the marker onto a turning point of the line it is drawn on.
-//
-// The marker date starts life as the day the leading event peaked *in its own
-// country*, which is the right date for the writeup and the wrong place for
-// the dot: the worldwide line has its own shape, so that date often lands
-// partway up a rise. These control the search for a nearby extremum — a day
-// no lower (or no higher) than every other within HALF_WIDTH either side.
-//
-// A month of half-width means a marker sits on a crest that dominates two
-// months of line, not a two-week wrinkle.
-//
-// The search window is capped tighter than that half-width would suggest.
-// Letting it run to 75 days did find a true turning point for every period,
-// but pushed five markers more than 45 days from their event — one by 67 —
-// and a dot two months adrift no longer points at what the panel describes.
-// Where no crest exists within 45 days the fallback takes the window's most
-// extreme day, which is still the high or low of a three-month span.
-const SNAP_DAYS = 45
-const PEAK_HALF_WIDTH = 30
 
 const DAY = 86400000
 const addDays = (iso, n) => new Date(Date.parse(iso) + n * DAY).toISOString().slice(0, 10)
@@ -148,56 +129,6 @@ function measure(dataType, cc, start, end) {
     ratio: Number((fell ? down : up).toFixed(1)),
     delta: Math.abs(extreme.users - baseline),
   }
-}
-
-/**
- * Move `target` to the nearest genuine turning point of `series`.
- *
- * A rise snaps to a crest and a fall snaps to a trough, because the feature a
- * shutdown makes on the line is a hole, not a peak. Prefers a real extremum —
- * a day no lower (or no higher) than anything within PEAK_HALF_WIDTH either
- * side — and among those takes the closest to the original date, so the marker
- * still points at the event it describes. If the window holds no turning point
- * at all, it falls back to the window's most extreme day, which is at least
- * not mid-slope.
- */
-function snapToPeak(series, target, direction = 'rise') {
-  if (!series?.length) return target
-  const lo = addDays(target, -SNAP_DAYS)
-  const hi = addDays(target, SNAP_DAYS)
-
-  const from = series.findIndex(p => p.date >= lo)
-  if (from === -1) return target
-  let to = from
-  while (to + 1 < series.length && series[to + 1].date <= hi) to++
-  if (to === from) return target
-
-  const up = direction !== 'fall'
-  const beats = (a, b) => (up ? a > b : a < b)
-
-  const targetMs = Date.parse(target)
-  let best = null
-  let extreme = null
-
-  for (let i = from; i <= to; i++) {
-    const point = series[i]
-    if (!extreme || beats(point.users, extreme.users)) extreme = point
-
-    let isTurning = true
-    for (let j = Math.max(0, i - PEAK_HALF_WIDTH); j <= Math.min(series.length - 1, i + PEAK_HALF_WIDTH); j++) {
-      if (beats(series[j].users, point.users)) { isTurning = false; break }
-    }
-    if (!isTurning) continue
-
-    const distance = Math.abs(Date.parse(point.date) - targetMs)
-    // Ties go to the more extreme day, so a flat shoulder does not beat a crest.
-    if (!best || distance < best.distance ||
-        (distance === best.distance && beats(point.users, best.point.users))) {
-      best = { point, distance }
-    }
-  }
-
-  return (best?.point ?? extreme)?.date ?? target
 }
 
 const { events: timeline } = JSON.parse(
@@ -310,8 +241,8 @@ for (const [period, all] of byPeriod) {
     // Where the dot goes, per chart. The two global series peak on different
     // days, so each gets its own snapped date; the app picks by data type.
     markerDates: {
-      relay: snapToPeak(load('relay', 'global'), lead.impact.date, lead.impact.direction),
-      bridge: snapToPeak(load('bridge', 'global'), lead.impact.date, lead.impact.direction),
+      relay: snapToTurningPoint(load('relay', 'global'), lead.impact.date, lead.impact.direction),
+      bridge: snapToTurningPoint(load('bridge', 'global'), lead.impact.date, lead.impact.direction),
     },
     // The day the leading uptick peaked in its own country, which is what the
     // writeup quotes.

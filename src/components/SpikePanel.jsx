@@ -40,12 +40,15 @@ export default function SpikePanel({ spike, regionLabel, onClose }) {
 
   const isPeriod = spike.kind === 'period'
   const p = isPeriod ? spike.period : null
+  // A single documented event, on a country chart.
+  const isEvent = spike.kind === 'censorship'
+  const fell = spike.direction === 'fall'
   const category = markerCategory(spike)
   const color = categoryColor(category, theme)
   const isShift = spike.kind === 'shift'
 
-  const curated = !isPeriod ? spike.event : null
-  const anomaly = !isPeriod && !curated ? spike.anomaly : null
+  const curated = !isPeriod && !isEvent ? spike.event : null
+  const anomaly = !isPeriod && !isEvent && !curated ? spike.anomaly : null
 
   return (
     <div className="spike-panel">
@@ -54,7 +57,7 @@ export default function SpikePanel({ spike, regionLabel, onClose }) {
           <span className="spike-panel-dot" style={{ background: color }} />
           {isShift && <span className="spike-panel-kind">Sustained</span>}
           {category === UNEXPLAINED ? 'No documented cause' : category.label}
-          {isPeriod && <span className="spike-panel-src">Tor timeline</span>}
+          {(isPeriod || isEvent) && <span className="spike-panel-src">Tor timeline</span>}
         </div>
         <button className="spike-panel-close" onClick={onClose} aria-label="Close">×</button>
       </div>
@@ -62,7 +65,9 @@ export default function SpikePanel({ spike, regionLabel, onClose }) {
       <h3 className="spike-panel-title">
         {isPeriod
           ? `${periodLabel(p.period)} — ${p.total} censorship event${p.total === 1 ? '' : 's'} in ${p.countries} countr${p.countries === 1 ? 'y' : 'ies'}`
-          : curated
+          : isEvent
+            ? spike.event.desc
+            : curated
             ? curated.title
             : anomaly
               ? `Network-wide ${isShift ? 'shift' : 'spike'} — ${anomaly.countries} countries at once`
@@ -92,6 +97,31 @@ export default function SpikePanel({ spike, regionLabel, onClose }) {
             <label>Shutdowns</label>
             <span className={p.shutdowns > 0 ? 'stat-down' : ''}>
               {p.shutdowns > 0 ? `${p.shutdowns} national` : 'none'}
+            </span>
+          </div>
+        </div>
+      ) : isEvent ? (
+        <div className="spike-panel-stats">
+          <div>
+            <label>Dates</label>
+            <span>
+              {spike.start === spike.end
+                ? formatDate(spike.start)
+                : `${formatDate(spike.start)} – ${formatDate(spike.end)}`}
+            </span>
+          </div>
+          <div>
+            <label>Before</label>
+            <span>{formatUsers(spike.baseline)}</span>
+          </div>
+          <div>
+            <label>{fell ? 'Fell to' : 'Rose to'}</label>
+            <span>{formatUsers(spike.peakUsers)} on {formatDate(spike.peakDate)}</span>
+          </div>
+          <div>
+            <label>Change</label>
+            <span className={fell ? 'stat-down' : 'stat-up'}>
+              {fell ? '▼' : '▲'} {spike.ratio.toFixed(1)}×
             </span>
           </div>
         </div>
@@ -192,6 +222,35 @@ export default function SpikePanel({ spike, regionLabel, onClose }) {
           )}
 
           <div className="spike-panel-sources">
+            <a href={TIMELINE_REPO} target="_blank" rel="noopener noreferrer">
+              <span className="src-title">Tor metrics timeline</span>
+              <span className="src-pub">The Tor Project</span>
+            </a>
+          </div>
+        </>
+      ) : isEvent ? (
+        <>
+          <p className="spike-panel-summary">
+            {fell
+              ? `Recorded in the Tor Project's metrics timeline. Over this window
+                 ${regionLabel}'s ${spike.ratio >= 2 ? 'usage collapsed' : 'usage fell'} from
+                 ${formatUsers(spike.baseline)} to ${formatUsers(spike.peakUsers)},
+                 ${spike.ratio.toFixed(1)}× below where it had been. A fall is what blocking
+                 Tor itself looks like: the clients cannot reach the network to be counted.`
+              : `Recorded in the Tor Project's metrics timeline. Over this window
+                 ${regionLabel}'s usage rose from ${formatUsers(spike.baseline)} to
+                 ${formatUsers(spike.peakUsers)}, ${spike.ratio.toFixed(1)}× where it had
+                 been — the usual shape when something else is blocked and people reach for
+                 Tor to get around it.`}
+          </p>
+          <div className="spike-panel-sources">
+            <label>Sources</label>
+            {spike.event.links.map(l => (
+              <a key={l.url} href={l.url} target="_blank" rel="noopener noreferrer">
+                <span className="src-title">{l.text}</span>
+                <span className="src-pub">{hostOf(l.url)}</span>
+              </a>
+            ))}
             <a href={TIMELINE_REPO} target="_blank" rel="noopener noreferrer">
               <span className="src-title">Tor metrics timeline</span>
               <span className="src-pub">The Tor Project</span>

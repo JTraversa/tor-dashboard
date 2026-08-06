@@ -13,6 +13,8 @@ import { getCountryName } from './utils/countries'
 import { detectSpikes, detectLevelShifts } from './utils/spikes'
 import { matchEvent, matchAnomaly, CATEGORIES, UNEXPLAINED, categoryColor } from './data/spikeEvents'
 import { buildPeriodMarkers } from './data/periods'
+import { buildCensorshipMarkers } from './data/censorshipEvents'
+import { snapToTurningPoint } from './utils/snap'
 import { useTheme } from './hooks/useTheme'
 
 const MAX_UNEXPLAINED_MARKERS = 8
@@ -23,6 +25,7 @@ const MAX_UNEXPLAINED_MARKERS = 8
 // recognised as one story. Null means nothing explains it.
 function explanationKey(s) {
   if (s.kind === 'period') return `period:${s.period.period}`
+  if (s.kind === 'censorship') return `censorship:${s.event.start}:${s.event.desc}`
   if (s.event) return `event:${s.event.id}`
   if (s.anomaly) return `anomaly:${s.anomaly.start}`
   return null
@@ -38,8 +41,8 @@ function formatNumber(n) {
 export default function App() {
   const {
     meta, loading, error,
-    loadCountryData, loadGlobalData, loadCountries, loadSnapshot, loadAnomalies, loadPeriods,
-    getCountryData, getGlobalData, getSnapshot, getAnomalies, getPeriods,
+    loadCountryData, loadGlobalData, loadCountries, loadSnapshot, loadAnomalies, loadPeriods, loadTimeline,
+    getCountryData, getGlobalData, getSnapshot, getAnomalies, getPeriods, getTimeline,
   } = useTorData()
 
   // Bridges are where censorship shows up: people reach for them when direct
@@ -53,6 +56,7 @@ export default function App() {
   const [snapshot, setSnapshot] = useState({})
   const [anomalies, setAnomalies] = useState([])
   const [periods, setPeriods] = useState([])
+  const [timeline, setTimeline] = useState([])
   const [loadingData, setLoadingData] = useState(false)
   const [timeRange, setTimeRange] = useState('all')
   const [chartType, setChartType] = useState('area')
@@ -89,6 +93,9 @@ export default function App() {
 
         await loadPeriods()
         setPeriods(getPeriods())
+
+        await loadTimeline()
+        setTimeline(getTimeline())
 
         if (selectedCountry === 'global') {
           await loadGlobalData(dataType)
@@ -172,10 +179,14 @@ export default function App() {
   const allSpikes = useMemo(() => {
     if (!dataPoints || dataPoints.length === 0) return []
 
-    // Source 1: censorship, rolled up per half-year and drawn on the worldwide
-    // chart only. Individual events are national and mostly invisible against
-    // the global line; the half-year is the unit that reads.
-    const censorship = buildPeriodMarkers(dataPoints, selectedCountry, periods, dataType)
+    // Source 1: censorship, from the Tor Project's event list, at the altitude
+    // each chart needs. The worldwide line gets half-year notes, because a
+    // decade of national blocks would be an unreadable stripe on it and most
+    // are invisible there anyway. A country chart gets one marker per event —
+    // the median country has two — measured and placed the same way.
+    const censorship = selectedCountry === 'global'
+      ? buildPeriodMarkers(dataPoints, selectedCountry, periods, dataType)
+      : buildCensorshipMarkers(dataPoints, selectedCountry, timeline, snapToTurningPoint)
 
     // Source 2: anomalies. What our own detectors find, which once censorship
     // is accounted for is largely the botnet and metrics-artifact class.
@@ -211,12 +222,17 @@ export default function App() {
     )
     const detected = [...shifts, ...keptSpikes]
 
-    // The two sets coexist rather than suppressing one another. A censorship
-    // note covers six months, so dropping every anomaly that overlaps one
-    // would erase almost all of them — and they are answering different
-    // questions anyway: what was censored, versus what looks like machines.
-    return [...censorship, ...detected]
-  }, [dataPoints, selectedCountry, dataType, anomalies, periods])
+    // On the worldwide chart the two sets coexist: a half-year note covers six
+    // months, so dropping every anomaly overlapping one would erase almost all
+    // of them, and they answer different questions anyway. On a country chart
+    // a censorship event covers days or weeks, and a detected spike inside one
+    // is the same story told worse — the documented event wins.
+    const keptDetected = selectedCountry === 'global'
+      ? detected
+      : detected.filter(d => !censorship.some(c => d.start <= c.end && d.end >= c.start))
+
+    return [...censorship, ...keptDetected]
+  }, [dataPoints, selectedCountry, dataType, anomalies, periods, timeline])
 
   // Noisy series (China and Turkey both clear 20 detections over the full
   // history) would otherwise bury the annotated spikes under a row of grey
@@ -244,8 +260,8 @@ export default function App() {
 
   // Counted by what the marker actually is under the current model, not by
   // which lookup happened to fire.
-  const censorshipCount = visibleSpikes.filter(s => s.kind === 'period').length
-  const anomalyCount = visibleSpikes.filter(s => s.kind !== 'period' && (s.event || s.anomaly)).length
+  const censorshipCount = visibleSpikes.filter(s => s.kind === 'period' || s.kind === 'censorship').length
+  const anomalyCount = visibleSpikes.filter(s => s.kind !== 'period' && s.kind !== 'censorship' && (s.event || s.anomaly)).length
   const unexplainedCount = visibleSpikes.filter(s => !explanationKey(s)).length
 
   const toggleCountry = (country) => {

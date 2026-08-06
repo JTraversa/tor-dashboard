@@ -87,9 +87,18 @@ centred baseline there has data on only one side.
 
 ### Two sources of markers
 
-**1. Half-yearly censorship notes** on the worldwide chart. Individual national
-blocks are not marked there — most are invisible against the global line, and a
-decade of them is an unreadable stripe of dots. Two rules keep it readable:
+**1. Censorship events** from the Tor Project's own list, drawn on every chart
+but at the altitude each one needs.
+
+On a **country chart**, one marker per event. The median country has two and
+Iran has 24, all legible on their own line. There is no "notable movement" gate
+here: every event is *about this country*, so it belongs on this country's
+chart whether or not it moved the line much, and the panel reports the size
+either way.
+
+On the **worldwide chart**, half-yearly notes. Individual national blocks are
+invisible against the global line and a decade of them is an unreadable stripe
+of dots, so they are rolled up. Two rules keep it readable:
 
 - **At most one note per half-year.** H1 and H2 are coarse enough that markers
   never crowd, and "Jul–Dec 2022" still points at something.
@@ -140,6 +149,18 @@ more than 43 days from its event.
 All markers are dots — direction arrows were tried and dropped, because a note
 covering a half-year of moves in both directions was picking one of them to
 stand for the rest.
+
+Both charts measure, place and colour events identically — the same baseline
+comparison, the same `snapToTurningPoint` in `src/utils/snap.js`, the same
+categories. Only the roll-up differs. That sharing is deliberate: the country
+charts previously ran *none* of this and showed only detector output, so 135
+documented censorship events were unreachable from any country's page and 74%
+of bridge country markers were unexplained.
+
+One difference in placement: a country marker only snaps when its event moved
+the line by at least 2×. Below that, dragging the dot up to 45 days onto a
+nearby wiggle would attach it to something the event did not cause, so it stays
+on the event's own extreme day.
 
 The events themselves come from the Tor Project's "Related events" list,
 filtered by one rule with two halves:
@@ -197,12 +218,10 @@ to trace.
 
 Two costs worth stating:
 
-- **Country charts no longer carry censorship markers**, only anomalies. The
-  censorship data is national, so per-country marking is easy to restore if the
-  worldwide roll-up turns out to be the wrong altitude.
-- **113 of the 135 events are not individually marked.** They appear inside the
-  notes for their half-year, but 2 half-years fail the movement test, so the
-  events in those are not reachable from the chart at all.
+- **On the worldwide chart, 113 of the 135 events are not individually
+  marked.** They appear inside the notes for their half-year, and 2 half-years
+  fail the movement test, so those events are reachable only from their
+  country's chart.
 - **The Tor list has gaps.** It has no row for Bangladesh's July 2024 shutdown,
   when direct users fell from ~13,400 to 77. That quarter's note is therefore
   missing its biggest event. Filling such gaps means adding to

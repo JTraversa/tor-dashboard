@@ -77,6 +77,12 @@ export function markerCategory(spike) {
   if (spike.kind === 'period') {
     return spike.period.shutdowns > 0 ? CATEGORIES.shutdown : CATEGORIES.censorship
   }
+  // A single documented event, on a country chart.
+  if (spike.kind === 'censorship') {
+    return /\b(shut ?down|blackout|outage|curfew)/i.test(spike.event.desc)
+      ? CATEGORIES.shutdown
+      : CATEGORIES.censorship
+  }
   if (spike.event) return CATEGORIES[spike.event.category] || UNEXPLAINED
   if (spike.anomaly) return CATEGORIES.anomaly
   return UNEXPLAINED
@@ -170,12 +176,22 @@ const EVENTS = [
     category: 'anomaly',
     title: 'UAE surge — cause never established',
     summary:
-      'UAE relay users rose from a baseline near 8,000 to almost 470,000, and bridge users from a few hundred to over 130,000. The scale is far out of proportion to the country, and the Tor Project itself has never explained it: Roger Dingledine wrote that "over the past two years there was a huge spike in users from UAE, and then they disappeared again," floating the possibilities that somebody integrated Tor into another app, or that Tor was miscounting clients that requested but never received the consensus document. Real censorship pressure did exist in the same period — a new cybercrime law and a ban on using VPNs for "criminal" purposes — but that does not by itself account for the magnitude.',
+      'UAE relay users rose from a baseline near 8,000 to almost 470,000, and bridge users from a few hundred to over 130,000. The scale is far out of proportion to the country, and the Tor Project itself has never explained it: Roger Dingledine wrote that "over the past two years there was a huge spike in users from UAE, and then they disappeared again," floating the possibilities that somebody integrated Tor into another app, or that Tor was miscounting clients that requested but never received the consensus document. Real censorship pressure did exist in the same period — a new cybercrime law and a ban on using VPNs for "criminal" purposes — but that does not by itself account for the magnitude. The metrics timeline maintained by the Tor Project carries the most specific lead: an anonymous contributor tied the spike to the number of hosts in the UAE with an open SMB port, which would make it a botnet rather than people. The timing fits that reading — this is the window in which SMB-exposed hosts were being swept at scale, months before WannaCry made the exposure famous — but it was never confirmed, and the entry is still filed as unexplained.',
     sources: [
       {
         title: 'The Next Chapter in Anti-Censorship (see comments on the UAE spike)',
         publisher: 'The Tor Project',
         url: 'https://blog.torproject.org/next-chapter-anti-censorship/',
+      },
+      {
+        title: 'Huge spike in UAE relay users (the SMB-botnet suggestion)',
+        publisher: 'Tor metrics-team list',
+        url: 'https://lists.torproject.org/pipermail/metrics-team/2017-January/000284.html',
+      },
+      {
+        title: 'United Arab Emirates went from 10k Tor users to 400k',
+        publisher: 'r/TOR',
+        url: 'https://www.reddit.com/r/TOR/comments/5pbukk/united_arab_emirates_went_from_10k_tor_users_to/',
       },
       {
         title: 'United Arab Emirates: Freedom on the Net 2017',
