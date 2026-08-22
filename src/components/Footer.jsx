@@ -2,9 +2,10 @@ export default function Footer() {
   return (
     <div className="dashboard-footer">
       <div className="footer-note">
-        Note: User counts are <strong>estimated</strong> from directory request data, not exact measurements.
-        Tor preserves user anonymity, so these figures reflect <strong>directly-connecting clients</strong> only
-        (not bridge users). See{' '}
+        Note: User counts are <strong>estimated</strong> from directory request data, not exact measurements —
+        Tor preserves user anonymity, so nobody is counted individually. Relay figures count clients
+        connecting <strong>directly</strong> to the network; bridge figures count clients connecting{' '}
+        <strong>through bridges</strong>. See{' '}
         <a href="https://research.torproject.org/techreports/counting-daily-bridge-users-2012-10-24.pdf" target="_blank" rel="noopener noreferrer">
           Loesing et al. (2012)
         </a>{' '}
@@ -15,6 +16,7 @@ export default function Footer() {
           <h4>Data Source</h4>
           <ul>
             <li><a href="https://metrics.torproject.org/userstats-relay-country.html" target="_blank" rel="noopener noreferrer">Tor Metrics — Relay Users by Country</a></li>
+            <li><a href="https://metrics.torproject.org/userstats-bridge-country.html" target="_blank" rel="noopener noreferrer">Tor Metrics — Bridge Users by Country</a></li>
             <li><a href="https://metrics.torproject.org/stats.html" target="_blank" rel="noopener noreferrer">Statistics File Documentation</a></li>
             <li><a href="https://metrics.torproject.org/collector.html" target="_blank" rel="noopener noreferrer">CollecTor Data Service</a></li>
           </ul>
@@ -23,7 +25,7 @@ export default function Footer() {
           <h4>Methodology</h4>
           <ul>
             <li><a href="https://research.torproject.org/techreports/counting-daily-bridge-users-2012-10-24.pdf" target="_blank" rel="noopener noreferrer">Counting Daily Bridge Users</a> — Loesing et al. (2012)</li>
-            <li><a href="https://blog.torproject.org/separating-anonymity-metrics" target="_blank" rel="noopener noreferrer">Separating Anonymity from Metrics</a></li>
+            <li><a href="https://metrics.torproject.org/reproducible-metrics.html#users" target="_blank" rel="noopener noreferrer">Reproducible Metrics — Users</a></li>
             <li>Estimates derived from directory requests; no PII collected</li>
           </ul>
         </div>

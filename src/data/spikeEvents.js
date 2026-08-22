@@ -316,7 +316,8 @@ const EVENTS = [
       {
         title: 'With Messaging Apps Still Banned, Bangladeshis Turn to Tor (and Twitter)',
         publisher: 'Global Voices Advox',
-        url: 'https://advox.globalvoices.org/2015/11/25/with-messaging-apps-still-banned-bangladeshis-turn-to-tor-and-twitter/',
+        // Site was 502ing in Aug 2026, so link the Wayback snapshot instead.
+        url: 'https://web.archive.org/web/20260316050727/https://advox.globalvoices.org/2015/11/25/with-messaging-apps-still-banned-bangladeshis-turn-to-tor-and-twitter/',
       },
     ],
   },

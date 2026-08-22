@@ -280,10 +280,9 @@ function maxValEstimate(snapshot) {
 
 // --- DORLING CARTOGRAM ---
 function DorlingView({ snapshot, maxVal, colorAt, onHover, onLeave, onClick, selectedCountry }) {
-  const radiusScale = scaleSqrt().domain([0, maxVal]).range([0, 60])
-
   // Use centroids as initial positions, then run simple force packing
   const positions = useMemo(() => {
+    const radiusScale = scaleSqrt().domain([0, maxVal]).range([0, 60])
     const items = []
     for (const [country, value] of Object.entries(snapshot || {})) {
       const c = getCountryCentroid(country)

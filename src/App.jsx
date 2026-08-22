@@ -57,7 +57,7 @@ export default function App() {
   const [anomalies, setAnomalies] = useState([])
   const [periods, setPeriods] = useState([])
   const [timeline, setTimeline] = useState([])
-  const [loadingData, setLoadingData] = useState(false)
+  const [loadingData, setLoadingData] = useState(true)
   const [timeRange, setTimeRange] = useState('all')
   const [chartType, setChartType] = useState('area')
   const [hiddenCountries, setHiddenCountries] = useState(new Set())
@@ -70,18 +70,29 @@ export default function App() {
   const countries = dataMeta.countries || []
   const topCountries = dataMeta.topCountries || []
 
-  useEffect(() => {
-    if (!meta) return
-    if (selectedCountry !== 'global' && countries.length > 0 && !countries.includes(selectedCountry)) {
+  const selectCountry = (country) => {
+    if (country === selectedCountry) return
+    setSelectedCountry(country)
+    setHiddenCountries(new Set())
+    setLoadingData(true)
+  }
+
+  const selectDataType = (type) => {
+    if (type === dataType) return
+    setDataType(type)
+    setHiddenCountries(new Set())
+    setLoadingData(true)
+    // Bridge and relay cover slightly different country sets; fall back to
+    // global rather than showing an empty chart for a missing country.
+    const nextCountries = meta?.[type]?.countries || meta?.countries || []
+    if (selectedCountry !== 'global' && nextCountries.length > 0 && !nextCountries.includes(selectedCountry)) {
       setSelectedCountry('global')
     }
-  }, [dataType, meta])
+  }
 
   useEffect(() => {
     if (!meta) return
 
-    setLoadingData(true)
-    setHiddenCountries(new Set())
     const load = async () => {
       try {
         // Always load snapshot for the current data type (used by map view)
@@ -312,7 +323,7 @@ export default function App() {
       <Header stats={stats} dataType={dataType} />
       <Controls
         dataType={dataType}
-        setDataType={setDataType}
+        setDataType={selectDataType}
         viewMode={viewMode}
         setViewMode={setViewMode}
         mapMode={mapMode}
@@ -330,7 +341,7 @@ export default function App() {
         <Sidebar
           countries={countries}
           selectedCountry={selectedCountry}
-          onSelect={setSelectedCountry}
+          onSelect={selectCountry}
         />
 
         <div className="chart-area">
@@ -347,7 +358,7 @@ export default function App() {
                   snapshot={snapshot}
                   mode={mapMode}
                   selectedCountry={selectedCountry}
-                  onSelect={setSelectedCountry}
+                  onSelect={selectCountry}
                 />
               )}
             </>
