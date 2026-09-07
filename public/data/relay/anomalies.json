@@ -821,42 +821,42 @@
   },
   {
     "start": "2025-08-31",
-    "end": "2026-07-28",
+    "end": "2026-07-25",
     "countries": 197,
-    "leadShare": 0.278,
+    "leadShare": 0.276,
     "basis": "sustained",
     "top": [
       {
         "cc": "us",
-        "excess": 219122450
+        "excess": 218984678
       },
       {
         "cc": "de",
-        "excess": 141770129
+        "excess": 141749881
       },
       {
         "cc": "nl",
-        "excess": 29908780
+        "excess": 29702740
       },
       {
         "cc": "in",
-        "excess": 29344076
+        "excess": 29219138
       },
       {
         "cc": "gb",
-        "excess": 21381720
+        "excess": 20741920
+      },
+      {
+        "cc": "it",
+        "excess": 19889628
       },
       {
         "cc": "ma",
-        "excess": 16863566
+        "excess": 16942098
       },
       {
         "cc": "ch",
-        "excess": 14763285
-      },
-      {
-        "cc": "id",
-        "excess": 14672781
+        "excess": 14761146
       }
     ]
   },
