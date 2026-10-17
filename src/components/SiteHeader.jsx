@@ -11,6 +11,7 @@ const menuLinks = [
 
 const toolLinks = [
   { label: 'Tools', href: 'https://tools.traversa.dev' },
+  { label: 'Gateway Withdraw', href: 'https://tools.traversa.dev/gateway', indent: true },
   { label: 'Aave Liquidation Search', href: 'https://tools.traversa.dev/aave', indent: true },
   { label: 'Historical Cloud Pricing', href: 'https://tools.traversa.dev/cloud-pricing', indent: true },
   { label: 'Epoch & Block Converter', href: 'https://tools.traversa.dev/epoch', indent: true },
@@ -32,7 +33,7 @@ export default function SiteHeader() {
       <header className="site-header">
         <div className="header-left">
           <ThemeToggle />
-          <button className="menu-toggle" onClick={toggleMenu}>
+          <button className="menu-toggle" onClick={toggleMenu} aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} aria-controls="site-navigation">
             {menuOpen ? (
               <svg viewBox="0 0 16 16" fill="currentColor">
                 <path fillRule="evenodd" clipRule="evenodd" d="M8 8.707l3.646 3.647.708-.707L8.707 8l3.647-3.646-.707-.708L8 7.293 4.354 3.646l-.707.708L7.293 8l-3.646 3.646.707.708L8 8.707z" />
@@ -46,7 +47,7 @@ export default function SiteHeader() {
         </div>
       </header>
 
-      <div className={`site-nav${menuOpen ? ' nav-open' : ''}`}>
+      <div id="site-navigation" className={`site-nav${menuOpen ? ' nav-open' : ''}`}>
         <div className="nav-bg">
           <div className="nav-wrapper">
             <div className="nav-container">
