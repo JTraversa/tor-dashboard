@@ -43,8 +43,8 @@
   {
     "start": "2013-08-21",
     "end": "2013-09-30",
-    "countries": 108,
-    "leadShare": 0.094,
+    "countries": 103,
+    "leadShare": 0.095,
     "basis": "concurrent",
     "top": [
       {
@@ -125,8 +125,8 @@
   {
     "start": "2013-09-08",
     "end": "2013-09-27",
-    "countries": 107,
-    "leadShare": 0.094,
+    "countries": 102,
+    "leadShare": 0.095,
     "basis": "burst",
     "top": [
       {
@@ -289,8 +289,8 @@
   {
     "start": "2020-12-25",
     "end": "2021-02-03",
-    "countries": 37,
-    "leadShare": 0.21,
+    "countries": 34,
+    "leadShare": 0.221,
     "basis": "burst",
     "top": [
       {
@@ -318,20 +318,61 @@
         "excess": 105965
       },
       {
-        "cc": "nl",
-        "excess": 84422
-      },
-      {
         "cc": "tr",
         "excess": 62146
+      },
+      {
+        "cc": "ve",
+        "excess": 53752
       }
     ]
   },
   {
     "start": "2020-12-25",
+    "end": "2020-12-30",
+    "countries": 10,
+    "leadShare": 0.427,
+    "basis": "concurrent",
+    "top": [
+      {
+        "cc": "lt",
+        "excess": 105965
+      },
+      {
+        "cc": "tr",
+        "excess": 62146
+      },
+      {
+        "cc": "bg",
+        "excess": 21972
+      },
+      {
+        "cc": "cy",
+        "excess": 16736
+      },
+      {
+        "cc": "hk",
+        "excess": 12776
+      },
+      {
+        "cc": "is",
+        "excess": 9651
+      },
+      {
+        "cc": "dk",
+        "excess": 6001
+      },
+      {
+        "cc": "lv",
+        "excess": 5928
+      }
+    ]
+  },
+  {
+    "start": "2021-01-05",
     "end": "2021-01-28",
-    "countries": 39,
-    "leadShare": 0.205,
+    "countries": 31,
+    "leadShare": 0.23,
     "basis": "concurrent",
     "top": [
       {
@@ -359,53 +400,12 @@
         "excess": 105965
       },
       {
-        "cc": "nl",
-        "excess": 84422
+        "cc": "ve",
+        "excess": 53752
       },
       {
-        "cc": "tr",
-        "excess": 62146
-      }
-    ]
-  },
-  {
-    "start": "2021-08-25",
-    "end": "2021-09-05",
-    "countries": 8,
-    "leadShare": 0.371,
-    "basis": "burst",
-    "top": [
-      {
-        "cc": "kr",
-        "excess": 30411
-      },
-      {
-        "cc": "pl",
-        "excess": 27276
-      },
-      {
-        "cc": "ie",
-        "excess": 15355
-      },
-      {
-        "cc": "nz",
-        "excess": 2751
-      },
-      {
-        "cc": "iq",
-        "excess": 1662
-      },
-      {
-        "cc": "si",
-        "excess": 1541
-      },
-      {
-        "cc": "ps",
-        "excess": 1540
-      },
-      {
-        "cc": "et",
-        "excess": 1372
+        "cc": "se",
+        "excess": 46032
       }
     ]
   },
@@ -492,10 +492,10 @@
     ]
   },
   {
-    "start": "2021-12-23",
+    "start": "2021-12-28",
     "end": "2022-01-22",
-    "countries": 17,
-    "leadShare": 0.377,
+    "countries": 14,
+    "leadShare": 0.386,
     "basis": "burst",
     "top": [
       {
@@ -617,8 +617,8 @@
   {
     "start": "2023-09-17",
     "end": "2023-09-23",
-    "countries": 27,
-    "leadShare": 0.291,
+    "countries": 26,
+    "leadShare": 0.296,
     "basis": "burst",
     "top": [
       {
@@ -652,88 +652,6 @@
       {
         "cc": "dz",
         "excess": 5766
-      }
-    ]
-  },
-  {
-    "start": "2024-11-02",
-    "end": "2024-11-02",
-    "countries": 8,
-    "leadShare": 0.36,
-    "basis": "concurrent",
-    "top": [
-      {
-        "cc": "us",
-        "excess": 678876
-      },
-      {
-        "cc": "lt",
-        "excess": 600782
-      },
-      {
-        "cc": "sg",
-        "excess": 247629
-      },
-      {
-        "cc": "eu",
-        "excess": 145397
-      },
-      {
-        "cc": "ro",
-        "excess": 118719
-      },
-      {
-        "cc": "nl",
-        "excess": 76313
-      },
-      {
-        "cc": "mu",
-        "excess": 15146
-      },
-      {
-        "cc": "ee",
-        "excess": 3046
-      }
-    ]
-  },
-  {
-    "start": "2024-11-04",
-    "end": "2024-11-04",
-    "countries": 8,
-    "leadShare": 0.348,
-    "basis": "concurrent",
-    "top": [
-      {
-        "cc": "us",
-        "excess": 678876
-      },
-      {
-        "cc": "lt",
-        "excess": 600782
-      },
-      {
-        "cc": "sg",
-        "excess": 247629
-      },
-      {
-        "cc": "eu",
-        "excess": 145397
-      },
-      {
-        "cc": "ro",
-        "excess": 118719
-      },
-      {
-        "cc": "nl",
-        "excess": 76313
-      },
-      {
-        "cc": "tr",
-        "excess": 68509
-      },
-      {
-        "cc": "mu",
-        "excess": 15146
       }
     ]
   },
@@ -781,7 +699,7 @@
   {
     "start": "2025-08-31",
     "end": "2025-11-14",
-    "countries": 132,
+    "countries": 131,
     "leadShare": 0.276,
     "basis": "concurrent",
     "top": [
@@ -823,47 +741,47 @@
     "start": "2025-08-31",
     "end": "2026-07-11",
     "countries": 197,
-    "leadShare": 0.26,
+    "leadShare": 0.261,
     "basis": "sustained",
     "top": [
       {
         "cc": "us",
-        "excess": 218216163
+        "excess": 218084977
       },
       {
         "cc": "de",
-        "excess": 141770129
+        "excess": 141798566
       },
       {
         "cc": "fr",
-        "excess": 45558960
+        "excess": 45492004
       },
       {
         "cc": "ca",
-        "excess": 32127602
+        "excess": 32113878
       },
       {
         "cc": "in",
-        "excess": 29022151
+        "excess": 29042454
       },
       {
         "cc": "nl",
-        "excess": 26902568
+        "excess": 26837272
       },
       {
         "cc": "it",
-        "excess": 22278200
+        "excess": 22215627
       },
       {
         "cc": "gb",
-        "excess": 19444203
+        "excess": 19386705
       }
     ]
   },
   {
     "start": "2025-09-01",
     "end": "2025-11-19",
-    "countries": 129,
+    "countries": 128,
     "leadShare": 0.276,
     "basis": "burst",
     "top": [
@@ -980,6 +898,88 @@
       {
         "cc": "vn",
         "excess": 208387
+      }
+    ]
+  },
+  {
+    "start": "2026-10-28",
+    "end": "2026-10-30",
+    "countries": 176,
+    "leadShare": 0.243,
+    "basis": "concurrent",
+    "top": [
+      {
+        "cc": "us",
+        "excess": 15433840
+      },
+      {
+        "cc": "de",
+        "excess": 7474338
+      },
+      {
+        "cc": "nl",
+        "excess": 4493373
+      },
+      {
+        "cc": "br",
+        "excess": 3705310
+      },
+      {
+        "cc": "fr",
+        "excess": 2502926
+      },
+      {
+        "cc": "ca",
+        "excess": 2042200
+      },
+      {
+        "cc": "gb",
+        "excess": 1603356
+      },
+      {
+        "cc": "fi",
+        "excess": 1519275
+      }
+    ]
+  },
+  {
+    "start": "2026-10-29",
+    "end": "2026-11-05",
+    "countries": 176,
+    "leadShare": 0.243,
+    "basis": "burst",
+    "top": [
+      {
+        "cc": "us",
+        "excess": 15433840
+      },
+      {
+        "cc": "de",
+        "excess": 7474338
+      },
+      {
+        "cc": "nl",
+        "excess": 4493373
+      },
+      {
+        "cc": "br",
+        "excess": 3705310
+      },
+      {
+        "cc": "fr",
+        "excess": 2502926
+      },
+      {
+        "cc": "ca",
+        "excess": 2042200
+      },
+      {
+        "cc": "gb",
+        "excess": 1603356
+      },
+      {
+        "cc": "fi",
+        "excess": 1519275
       }
     ]
   }

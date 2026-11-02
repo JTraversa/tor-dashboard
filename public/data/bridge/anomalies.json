@@ -162,5 +162,87 @@
         "excess": 2931
       }
     ]
+  },
+  {
+    "start": "2026-10-27",
+    "end": "2026-11-05",
+    "countries": 36,
+    "leadShare": 0.491,
+    "basis": "burst",
+    "top": [
+      {
+        "cc": "ru",
+        "excess": 275102
+      },
+      {
+        "cc": "nl",
+        "excess": 37227
+      },
+      {
+        "cc": "us",
+        "excess": 35486
+      },
+      {
+        "cc": "ir",
+        "excess": 31305
+      },
+      {
+        "cc": "sg",
+        "excess": 28664
+      },
+      {
+        "cc": "de",
+        "excess": 22376
+      },
+      {
+        "cc": "ua",
+        "excess": 20274
+      },
+      {
+        "cc": "gb",
+        "excess": 9408
+      }
+    ]
+  },
+  {
+    "start": "2026-10-28",
+    "end": "2026-10-30",
+    "countries": 36,
+    "leadShare": 0.491,
+    "basis": "concurrent",
+    "top": [
+      {
+        "cc": "ru",
+        "excess": 275102
+      },
+      {
+        "cc": "nl",
+        "excess": 37227
+      },
+      {
+        "cc": "us",
+        "excess": 35486
+      },
+      {
+        "cc": "ir",
+        "excess": 31305
+      },
+      {
+        "cc": "sg",
+        "excess": 28664
+      },
+      {
+        "cc": "de",
+        "excess": 22376
+      },
+      {
+        "cc": "ua",
+        "excess": 20274
+      },
+      {
+        "cc": "gb",
+        "excess": 9408
+      }
+    ]
   }
 ]
