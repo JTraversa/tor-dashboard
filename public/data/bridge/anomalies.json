@@ -165,83 +165,83 @@
   },
   {
     "start": "2026-10-27",
-    "end": "2026-11-05",
+    "end": "2026-11-07",
     "countries": 36,
-    "leadShare": 0.491,
+    "leadShare": 0.494,
     "basis": "burst",
     "top": [
       {
         "cc": "ru",
-        "excess": 275102
+        "excess": 243510
       },
       {
         "cc": "nl",
-        "excess": 37227
+        "excess": 31327
       },
       {
         "cc": "us",
-        "excess": 35486
-      },
-      {
-        "cc": "ir",
-        "excess": 31305
+        "excess": 28420
       },
       {
         "cc": "sg",
-        "excess": 28664
+        "excess": 27006
       },
       {
-        "cc": "de",
-        "excess": 22376
+        "cc": "ir",
+        "excess": 26897
       },
       {
         "cc": "ua",
-        "excess": 20274
+        "excess": 18391
+      },
+      {
+        "cc": "de",
+        "excess": 18371
       },
       {
         "cc": "gb",
-        "excess": 9408
+        "excess": 7985
       }
     ]
   },
   {
     "start": "2026-10-28",
-    "end": "2026-10-30",
+    "end": "2026-11-04",
     "countries": 36,
-    "leadShare": 0.491,
+    "leadShare": 0.494,
     "basis": "concurrent",
     "top": [
       {
         "cc": "ru",
-        "excess": 275102
+        "excess": 243510
       },
       {
         "cc": "nl",
-        "excess": 37227
+        "excess": 31327
       },
       {
         "cc": "us",
-        "excess": 35486
-      },
-      {
-        "cc": "ir",
-        "excess": 31305
+        "excess": 28420
       },
       {
         "cc": "sg",
-        "excess": 28664
+        "excess": 27006
       },
       {
-        "cc": "de",
-        "excess": 22376
+        "cc": "ir",
+        "excess": 26897
       },
       {
         "cc": "ua",
-        "excess": 20274
+        "excess": 18391
+      },
+      {
+        "cc": "de",
+        "excess": 18371
       },
       {
         "cc": "gb",
-        "excess": 9408
+        "excess": 7985
       }
     ]
   }

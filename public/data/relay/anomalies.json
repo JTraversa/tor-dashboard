@@ -289,8 +289,8 @@
   {
     "start": "2020-12-25",
     "end": "2021-02-03",
-    "countries": 34,
-    "leadShare": 0.221,
+    "countries": 35,
+    "leadShare": 0.219,
     "basis": "burst",
     "top": [
       {
@@ -329,7 +329,7 @@
   },
   {
     "start": "2020-12-25",
-    "end": "2020-12-30",
+    "end": "2020-12-31",
     "countries": 10,
     "leadShare": 0.427,
     "basis": "concurrent",
@@ -371,8 +371,8 @@
   {
     "start": "2021-01-05",
     "end": "2021-01-28",
-    "countries": 31,
-    "leadShare": 0.23,
+    "countries": 32,
+    "leadShare": 0.228,
     "basis": "concurrent",
     "top": [
       {
@@ -494,8 +494,8 @@
   {
     "start": "2021-12-28",
     "end": "2022-01-22",
-    "countries": 14,
-    "leadShare": 0.386,
+    "countries": 15,
+    "leadShare": 0.384,
     "basis": "burst",
     "top": [
       {
@@ -740,41 +740,41 @@
   {
     "start": "2025-08-31",
     "end": "2026-07-11",
-    "countries": 197,
-    "leadShare": 0.261,
+    "countries": 196,
+    "leadShare": 0.264,
     "basis": "sustained",
     "top": [
       {
         "cc": "us",
-        "excess": 218084977
+        "excess": 217946760
       },
       {
         "cc": "de",
-        "excess": 141798566
+        "excess": 141750473
       },
       {
         "cc": "fr",
-        "excess": 45492004
+        "excess": 45422388
       },
       {
         "cc": "ca",
-        "excess": 32113878
+        "excess": 32064011
       },
       {
         "cc": "in",
-        "excess": 29042454
+        "excess": 29760549
       },
       {
         "cc": "nl",
-        "excess": 26837272
+        "excess": 26784797
       },
       {
         "cc": "it",
-        "excess": 22215627
+        "excess": 21881184
       },
       {
-        "cc": "gb",
-        "excess": 19386705
+        "cc": "ma",
+        "excess": 17748910
       }
     ]
   },
@@ -903,83 +903,83 @@
   },
   {
     "start": "2026-10-28",
-    "end": "2026-10-30",
-    "countries": 176,
+    "end": "2026-11-05",
+    "countries": 178,
     "leadShare": 0.243,
     "basis": "concurrent",
     "top": [
       {
         "cc": "us",
-        "excess": 15433840
+        "excess": 15092075
       },
       {
         "cc": "de",
-        "excess": 7474338
+        "excess": 7308503
       },
       {
         "cc": "nl",
-        "excess": 4493373
+        "excess": 4394970
       },
       {
         "cc": "br",
-        "excess": 3705310
+        "excess": 3738888
       },
       {
         "cc": "fr",
-        "excess": 2502926
+        "excess": 2447962
       },
       {
         "cc": "ca",
-        "excess": 2042200
+        "excess": 1997076
       },
       {
         "cc": "gb",
-        "excess": 1603356
+        "excess": 1565509
       },
       {
         "cc": "fi",
-        "excess": 1519275
+        "excess": 1483557
       }
     ]
   },
   {
     "start": "2026-10-29",
-    "end": "2026-11-05",
-    "countries": 176,
+    "end": "2026-11-07",
+    "countries": 178,
     "leadShare": 0.243,
     "basis": "burst",
     "top": [
       {
         "cc": "us",
-        "excess": 15433840
+        "excess": 15092075
       },
       {
         "cc": "de",
-        "excess": 7474338
+        "excess": 7308503
       },
       {
         "cc": "nl",
-        "excess": 4493373
+        "excess": 4394970
       },
       {
         "cc": "br",
-        "excess": 3705310
+        "excess": 3738888
       },
       {
         "cc": "fr",
-        "excess": 2502926
+        "excess": 2447962
       },
       {
         "cc": "ca",
-        "excess": 2042200
+        "excess": 1997076
       },
       {
         "cc": "gb",
-        "excess": 1603356
+        "excess": 1565509
       },
       {
         "cc": "fi",
-        "excess": 1519275
+        "excess": 1483557
       }
     ]
   }
