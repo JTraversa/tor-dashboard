@@ -739,42 +739,42 @@
   },
   {
     "start": "2025-08-31",
-    "end": "2026-07-11",
+    "end": "2026-07-12",
     "countries": 196,
     "leadShare": 0.264,
     "basis": "sustained",
     "top": [
       {
         "cc": "us",
-        "excess": 217946760
+        "excess": 217847881
       },
       {
         "cc": "de",
-        "excess": 141750473
+        "excess": 141810851
       },
       {
         "cc": "fr",
-        "excess": 45422388
+        "excess": 45188536
       },
       {
         "cc": "ca",
-        "excess": 32064011
+        "excess": 32012781
       },
       {
         "cc": "in",
-        "excess": 29760549
+        "excess": 29059518
       },
       {
         "cc": "nl",
-        "excess": 26784797
+        "excess": 26514386
       },
       {
         "cc": "it",
-        "excess": 21881184
+        "excess": 21843861
       },
       {
         "cc": "ma",
-        "excess": 17748910
+        "excess": 17699755
       }
     ]
   },
@@ -922,11 +922,11 @@
       },
       {
         "cc": "br",
-        "excess": 3738888
+        "excess": 3738144
       },
       {
         "cc": "fr",
-        "excess": 2447962
+        "excess": 2447465
       },
       {
         "cc": "ca",
@@ -963,11 +963,11 @@
       },
       {
         "cc": "br",
-        "excess": 3738888
+        "excess": 3738144
       },
       {
         "cc": "fr",
-        "excess": 2447962
+        "excess": 2447465
       },
       {
         "cc": "ca",
